@@ -1,0 +1,33 @@
+version: '3'
+services:
+  api:
+    container_name: f0-datalake_api_test
+    command: bash server/bin/wait-for-it.sh postgresql npx gulp
+    environment:
+      NODE_ENV: "test"
+      DB_HOST: "postgresql"
+      DB_NAME: "test"
+      DB_PASS: ""
+      DB_USER: "test"
+    image: gcr.io/fundzero/f0-datalake_api:latest
+    volumes:
+      - ./server:/f0-datalake_api/server
+      - ./test:/f0-datalake_api/test
+      - ./migrations:/f0-datalake_api/migrations
+    ports:
+      - "3031:3030"
+    depends_on:
+      - postgresql
+
+  postgresql:
+    container_name: f0-datalake_db_test
+    image: postgres:9.6.15
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_DB: "test"
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: ""
+    volumes:
+      - ./tmp/postgresql-data-test:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"

@@ -1,0 +1,52 @@
+{
+  "name": "f0-datalake",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "repository": {
+    "type": "git",
+    "url": "https://source.developers.google.com/p/fundzero/r/f0-datalake"
+  },
+  "author": "FUNDZERO",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "bash scripts/start-containers.sh",
+    "stop": "docker-compose -p f0-datalake -f docker-compose.dev.yml down",
+    "logs": "docker-compose -p f0-datalake -f docker-compose.dev.yml logs -f",
+    "compile": "gulp compilejs",
+    "build-image": "bash scripts/build-docker-image.sh",
+    "deploy": "bash scripts/deploy-docker-image.sh",
+    "lint": "gulp lint",
+    "migrations": "echo I need migrations, man",
+    "test": "bash scripts/run-tests.sh",
+    "test:setup": "docker-compose -p f0-datalake_test -f docker-compose.test.yml up --force-recreate -d; docker-compose -p f0-datalake_test -f docker-compose.test.yml logs -f",
+    "test:stop": "docker-compose -p f0-datalake_test -f docker-compose.test.yml down",
+    "test:run": "./node_modules/mocha/bin/mocha \"test/**/*.test.js\""
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "knex": "^0.19.5",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/passport": "^1.0.1",
+    "@types/passport-jwt": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "eslint": "^6.6.0",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-typescript": "^5.0.1",
+    "mocha": "^6.2.1",
+    "typescript": "^3.6.4"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "isolatedModules": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es6",
+    "outDir": "server/dist"
+  },
+  "include": [
+    "server/src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "server/dist",
+    "migrations",
+    "seeds",
+    "scripts",
+    "test",
+    "tmp"
+  ],
+  "compileOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
+  },
+  "typeRoots": [
+    "node_modules/@types"
+  ]
+}
