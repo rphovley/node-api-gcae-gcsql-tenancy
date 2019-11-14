@@ -2,25 +2,24 @@ const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const nodemon = require('gulp-nodemon');
 const eslint = require('gulp-eslint');
-const changed = require('gulp-changed');
-const path = require('path');
 
 const tsProject = ts.createProject('./tsconfig.json');
 const DESTINATION = 'server/dist';
 
-function watch(done) {
+function watchNode(done) {
+  //Restart node server if changes to file systeym happen
   const stream = nodemon({
-    script: path.resolve(__dirname, 'server/bin/www'),
+    script: '',
     ext: 'ts',
     watch: ['**/*.ts', '**/*.js'],
     ignore: ['node_modules', 'migrations', 'scripts', 'seeds', 'test', 'server/dist', 'tmp'],
-    tasks: ['recompilejs'],
+    exec: 'nodemon --nolazy --inspect=0.0.0.0:9222 ./server/bin/www',
     done,
     verbose: true,
   })
 
   stream.on('restart', (files) => {
-    console.log('files changed', files);
+    console.log('files changed, restarting node server: ', files);
   });
 }
 
@@ -34,16 +33,6 @@ function compilejs(done) {
     .pipe(gulp.dest(DESTINATION))
 }
 
-function recompilejs(done) {
-  return tsProject.src()
-    .pipe(changed(DESTINATION, { extension: '.js' }))
-    .pipe(tsProject())
-    .on('error', () => {
-      done();
-      process.exit(1);
-    })
-    .pipe(gulp.dest(DESTINATION))
-}
 
 function lint() {
   return gulp.src(['server/src/**/*.{ts,js}'])
@@ -53,11 +42,10 @@ function lint() {
 }
 
 module.exports = {
-  watch,
+  watchNode,
   compilejs,
-  recompilejs,
   lint,
-  default: gulp.series(compilejs, watch)
+  default: gulp.series(compilejs, watchNode)
 };
 
 

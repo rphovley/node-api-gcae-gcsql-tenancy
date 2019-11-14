@@ -9,7 +9,7 @@ import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
 
-const PORT_FALLBACK = '3030'
+const PORT_FALLBACK = '8080'
 
 export class Server {
   public app: express.Application
@@ -41,8 +41,8 @@ export class Server {
     this.app.use(morgan('dev'))
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
-    this.app.use(auth.passport.initialize())
-    this.app.use(auth.authMiddleware())
+    // this.app.use(auth.passport.initialize())
+    // this.app.use(auth.authMiddleware())
   }
 
   /**

@@ -8,6 +8,7 @@ export class TestRoute extends BaseRoute {
 
     router.get('/api/test', (req: Request, res: Response, next: NextFunction) => {
       new TestController().test(req, res, next)
+      new TestController().test(req, res, next)
     })
     router.post('/api/test/echo', (req: Request, res: Response, next: NextFunction) => {
       new TestController().echo(req, res, next)

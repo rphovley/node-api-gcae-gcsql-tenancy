@@ -5,14 +5,14 @@ services:
     command: bash server/bin/wait-for-it.sh api_db npx gulp
     environment:
       NODE_ENV: "development"
-      SERVER_PORT: 3030
+      SERVER_PORT: 8080
       API_DB_PORT: 5432
       AUTH_DB_PORT: 5433
     image: gcr.io/fundzero/f0-datalake_api:latest
     volumes:
       - ./:/f0-datalake_api/
     ports:
-      - "3030:3030"
+      - "8080:8080"
       - "9222:9222" # open port for inspector to debug
 
     depends_on:

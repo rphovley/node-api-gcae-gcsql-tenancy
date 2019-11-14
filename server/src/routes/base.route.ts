@@ -7,10 +7,6 @@ import { Request, Response } from 'express'
  */
 export class BaseRoute {
 
-  protected title: string
-
-  private scripts: string[]
-
   /**
    * Constructor
    *
@@ -19,21 +15,6 @@ export class BaseRoute {
    */
   constructor() {
     //initialize variables
-    this.title = 'base route'
-    this.scripts = []
-  }
-
-  /**
-   * Add a JS external file to the request.
-   *
-   * @class BaseRoute
-   * @method addScript
-   * @param src {string} The src to the external JS file.
-   * @return {BaseRoute} Self for chaining
-   */
-  public addScript(src: string): BaseRoute {
-    this.scripts.push(src)
-    return this
   }
 
   /**
@@ -48,15 +29,6 @@ export class BaseRoute {
    * @return void
    */
   public render(req: Request, res: Response, view: string, options?: Object): void {
-    //add constants
-    res.locals.BASE_URL = '/api'
-
-    //add scripts
-    res.locals.scripts = this.scripts
-
-    //add title
-    res.locals.title = this.title
-
     //render view
     res.render(view, options)
   }

@@ -11,12 +11,13 @@ All of these were noted from my machine at the time and may not be the lower lim
 - ESLint (optional)
 
 ## Image Repository Access
-You will need access to our Google Cloud Registry
+You will need access to our Google Cloud Registry. You will also need to run `gcloud auth configure-docker` the first time.
 
 ## Quick Start
 - Run `yarn` to install dependencies
-- Run `yarn start` to start containers with server listening on port 3030 (note: this runs `docker-compose up -d` in the background and then runs `docker-compose logs` so you will need to stop it gracefully with ...)
+- Run `yarn start` to start containers with server listening on port 8080 (note: this runs `docker-compose up -d` in the background and then runs `docker-compose logs` so you will need to stop it gracefully with ...)
 - ... `yarn stop` to cleanly shut down containers.
+- Run `yarn watch` to watch files locally for changes to recompile the typescript. Unfortunately, haven't figured out how to display the logs and watch the typescript files all with a single command yet.
 
 Note: the reason for not just running `docker-compose up` to view the logs is because of a known bug with docker-compose in that sometimes a `^C` or SIGINT to the process won't actually stop the containers. 
 

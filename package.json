@@ -12,8 +12,9 @@
   "scripts": {
     "start": "bash scripts/start-containers.sh",
     "stop": "docker-compose -p f0-datalake -f docker-compose.dev.yml down",
+    "restart": "yarn stop; yarn start",
     "logs": "docker-compose -p f0-datalake -f docker-compose.dev.yml logs -f",
-    "compile": "gulp compilejs",
+    "connect": "docker exec -it f0-datalake_api bash",
     "build-image": "bash scripts/build-docker-image.sh",
     "deploy": "bash scripts/deploy-docker-image.sh",
     "lint": "gulp lint",
@@ -21,17 +22,20 @@
     "test": "bash scripts/run-tests.sh",
     "test:setup": "docker-compose -p f0-datalake_test -f docker-compose.test.yml up --force-recreate -d; docker-compose -p f0-datalake_test -f docker-compose.test.yml logs -f",
     "test:stop": "docker-compose -p f0-datalake_test -f docker-compose.test.yml down",
-    "test:run": "./node_modules/mocha/bin/mocha \"test/**/*.test.js\""
+    "test:run": "./node_modules/mocha/bin/mocha \"test/**/*.test.js\"",
+    "watch": "tsc -w -p ./",
+    "compile": "tsc -p ./"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "bookshelf": "^1.0.1",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.17.1",
     "knex": "^0.19.5",
+    "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "morgan": "^1.9.1",
     "pg": "^7.12.1"
   },
   "devDependencies": {
@@ -42,7 +46,6 @@
     "@typescript-eslint/parser": "^2.5.0",
     "eslint": "^6.6.0",
     "gulp": "^4.0.2",
-    "gulp-changed": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "gulp-nodemon": "^2.4.2",
     "gulp-typescript": "^5.0.1",
