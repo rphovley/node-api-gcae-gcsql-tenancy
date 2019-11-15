@@ -7,17 +7,33 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "Attach to Docker",
-      // "preLaunchTask": "tsc-watch",
+      "name": "Attach",
       "restart": true,
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "/f0-datalake_api",
       "sourceMaps": true,
-      "address": "0.0.0.0",
-      "port": 9222,
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug",
+      "restart": true,
+      "program": "${workspaceFolder}/server/bin/www",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Migrations",
+      "program": "${workspaceFolder}/migrations/migration.js",
+      "restart": true,
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
       "skipFiles": [
         "<node_internals>/**/*.js",
       ]

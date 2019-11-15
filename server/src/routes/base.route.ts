@@ -6,17 +6,6 @@ import { Request, Response } from 'express'
  * @class BaseRoute
  */
 export class BaseRoute {
-
-  /**
-   * Constructor
-   *
-   * @class BaseRoute
-   * @constructor
-   */
-  constructor() {
-    //initialize variables
-  }
-
   /**
    * Render a page.
    *
@@ -28,8 +17,8 @@ export class BaseRoute {
    * @param options {Object} Additional options to append to the view's local scope.
    * @return void
    */
-  public render(req: Request, res: Response, view: string, options?: Object): void {
-    //render view
+  public render(req: Request, res: Response, view: string, options?: {}): void {
+    // render view
     res.render(view, options)
   }
 }

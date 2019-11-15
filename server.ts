@@ -5,12 +5,11 @@ import * as bodyParser from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 import * as routes from './routes'
-import * as db from './utils/db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
 
-const PORT_FALLBACK = '8080'
+const PORT_FALLBACK = '8081'
 
 export class Server {
   public app: express.Application
@@ -19,7 +18,8 @@ export class Server {
 
   constructor() {
     this.app = express()
-    db.initConnection()
+    process.env.SERVER_PORT = '8081'
+
     this.port = normalizePort(process.env.SERVER_PORT || PORT_FALLBACK)
     this.app.set('port', this.port)
     this.initMiddleware()
@@ -64,9 +64,9 @@ export class Server {
       console.log('\x1b[31m', err)
       if (err instanceof BaseError) {
         console.log('===================================== is custom error')
-        res.status(err.status).json({ message: err.message, err })
+        res.status(err.status).json({ message: err.message })
       } else {
-        res.status(err.status || err.statusCode || 500).json({ message: err.message || 'Internal Server Error', err })
+        res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' })
       }
     })
   }

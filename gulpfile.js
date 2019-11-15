@@ -1,10 +1,13 @@
-const gulp = require('gulp');
-const ts = require('gulp-typescript');
-const nodemon = require('gulp-nodemon');
-const eslint = require('gulp-eslint');
+const gulp = require('gulp')
+const ts = require('gulp-typescript')
+const nodemon = require('gulp-nodemon')
+const eslint = require('gulp-eslint')
 
-const tsProject = ts.createProject('./tsconfig.json');
-const DESTINATION = 'server/dist';
+var sourcemaps = require('gulp-sourcemaps')
+
+
+const tsProject = ts.createProject('server/src/tsconfig.json')
+const DESTINATION = 'server/dist'
 
 function watchNode(done) {
   //Restart node server if changes to file systeym happen
@@ -13,32 +16,33 @@ function watchNode(done) {
     ext: 'ts',
     watch: ['**/*.ts', '**/*.js'],
     ignore: ['node_modules', 'migrations', 'scripts', 'seeds', 'test', 'server/dist', 'tmp'],
-    exec: 'nodemon --nolazy --inspect=0.0.0.0:9222 ./server/bin/www',
+    exec: 'nodemon --nolazy --inspect ./server/bin/www',
     done,
     verbose: true,
   })
 
   stream.on('restart', (files) => {
-    console.log('files changed, restarting node server: ', files);
-  });
+    console.log('files changed, restarting node server: ', files)
+  })
 }
 
 function compilejs(done) {
-  return tsProject.src()
+  return gulp.src('server/src/**/*.{ts,env}')
+    .pipe(sourcemaps.init())
     .pipe(tsProject())
+    .pipe(sourcemaps.write('.', { sourceRoot: '../src', includeContent: false}))
     .on('error', () => {
-      done();
-      process.exit(1);
+      done()
+      process.exit(1)
     })
     .pipe(gulp.dest(DESTINATION))
 }
-
 
 function lint() {
   return gulp.src(['server/src/**/*.{ts,js}'])
     .pipe(eslint())
     .pipe(eslint.format('codeframe'))
-    .pipe(eslint.failAfterError());
+    .pipe(eslint.failAfterError())
 }
 
 module.exports = {
@@ -46,6 +50,6 @@ module.exports = {
   compilejs,
   lint,
   default: gulp.series(compilejs, watchNode)
-};
+}
 
 
