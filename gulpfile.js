@@ -13,10 +13,12 @@ function watchNode(done) {
     ext: 'ts',
     watch: ['**/*.ts', '**/*.js'],
     ignore: ['node_modules', 'migrations', 'scripts', 'seeds', 'test', 'server/dist', 'tmp'],
-    exec: 'nodemon --nolazy --inspect=0.0.0.0:9222 ./server/bin/www',
+    exec: 'nodemon --nolazy --inspect=0.0.0.0:9222 -L ./server/bin/www',
     done,
     verbose: true,
   })
+
+  
 
   stream.on('restart', (files) => {
     console.log('files changed, restarting node server: ', files);

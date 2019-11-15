@@ -1,18 +1,23 @@
 import { BaseRoute } from './base.route'
 import { Router, Request, Response, NextFunction } from 'express'
-import { TestController } from '../controllers/test.controller'
-import { guard } from '../middleware/guard'
+import { ImportController } from '../controllers/import.controller'
 
 export class ImportRoute extends BaseRoute {
   public static create(router: Router): void {
     router.get('/api/import', (req: Request, res: Response, next: NextFunction) => {
-      new TestController().test(req, res, next)
+      ImportController.index(req, res, next)
+    })
+    router.get('/api/import/:id', (req: Request, res: Response, next: NextFunction) => {
+      ImportController.show(req, res, next)
     })
     router.post('/api/import', (req: Request, res: Response, next: NextFunction) => {
-      new TestController().echo(req, res, next)
+      ImportController.create(req, res, next)
     })
-    router.get('/api/import/:id', guard.check(['admin']), (req: Request, res: Response, next: NextFunction) => {
-      new TestController().protectedIndex(req, res, next)
+    router.put('/api/import/:id', (req: Request, res: Response, next: NextFunction) => {
+      ImportController.update(req, res, next)
+    })
+    router.delete('/api/import/:id', (req: Request, res: Response, next: NextFunction) => {
+      ImportController.delete(req, res, next)
     })
   }
 }

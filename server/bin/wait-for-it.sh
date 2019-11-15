@@ -10,6 +10,6 @@ until psql -h "$host" -U "f0-datalake" -c '\l'; do
 done
 
 >&2 echo "Postgres is up - executing commands"
-# >&2 echo "Running migrations"
-# node migrations/migration
+>&2 echo "Running migrations"
+node migrations/migration
 exec $cmd

@@ -8,6 +8,10 @@ services:
       SERVER_PORT: 8080
       API_DB_PORT: 5432
       AUTH_DB_PORT: 5433
+      DB_HOST: "api_db"
+      DB_NAME: "f0-datalake"
+      DB_PASS: ""
+      DB_USER: "f0-datalake"
     image: gcr.io/fundzero/f0-datalake_api:latest
     volumes:
       - ./:/f0-datalake_api/
@@ -17,7 +21,6 @@ services:
 
     depends_on:
       - api_db
-      - auth_db
 
   api_db:
     container_name: f0-datalake_api_db
@@ -30,15 +33,3 @@ services:
       - ./tmp/postgresql-data:/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
-
-  auth_db:
-    container_name: f0-datalake_auth_db
-    image: postgres:9.6.15
-    environment:
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-      POSTGRES_PASSWORD: ""
-      POSTGRES_USER: "f0-datalake"
-    volumes:
-      - ./tmp/auth-postgresql-data:/var/lib/postgresql/data/pgdata
-    ports:
-      - "5433:5432"

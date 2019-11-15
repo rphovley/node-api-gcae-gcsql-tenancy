@@ -5,12 +5,11 @@ import * as bodyParser from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 import * as routes from './routes'
-import * as db from './utils/db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
 
-const PORT_FALLBACK = '8080'
+const PORT_FALLBACK = '8081'
 
 export class Server {
   public app: express.Application
@@ -19,7 +18,8 @@ export class Server {
 
   constructor() {
     this.app = express()
-    db.initConnection()
+    process.env.SERVER_PORT = '8081'
+
     this.port = normalizePort(process.env.SERVER_PORT || PORT_FALLBACK)
     this.app.set('port', this.port)
     this.initMiddleware()
