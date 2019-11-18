@@ -8,7 +8,7 @@ export class ImportController {
       const imports = await Import.query()
       res.json({message: 'success', data: imports})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -16,10 +16,10 @@ export class ImportController {
     const importId = req.params.id
     if (!importId) return next({ status: 422, message: 'id required to update import'})
     try{
-      const imports = await Import.query().findById(importId)
+      const imports = await Import.query().findById(importId).eager('endpoints')
       res.json({message: 'success', data: imports})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -30,7 +30,7 @@ export class ImportController {
       const imports = await Import.query().insert(body)
       res.send({message: 'success', data: imports})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -43,7 +43,7 @@ export class ImportController {
       if(!imports) return next({ status: 404, message: `Could not find import with id: ${importId}`})
       res.send({message: 'success', data: imports})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -55,7 +55,7 @@ export class ImportController {
       if(!imports) return next({ status: 404, message: `Could not find import with id: ${importId}. May be already deleted.`})
       res.send({message: 'success', data: imports})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 }

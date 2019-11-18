@@ -64,9 +64,9 @@ export class Server {
       console.log('\x1b[31m', err)
       if (err instanceof BaseError) {
         console.log('===================================== is custom error')
-        res.status(err.status).json({ message: err.message })
+        res.status(err.status).json({ message: err.message, err })
       } else {
-        res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' })
+        res.status(err.status || err.statusCode || 500).json({ message: err.message || 'Internal Server Error', err })
       }
     })
   }

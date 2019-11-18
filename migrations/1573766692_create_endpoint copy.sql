@@ -4,8 +4,9 @@ CREATE TABLE endpoint (
     updated_at timestamp with time zone NOT NULL,
     deleted_at timestamp with time zone,
     restored_at timestamp with time zone,
-    name character varying(255),
-    url TEXT,
+    name character varying(255) NOT NULL,
+    url TEXT NOT NULL,
+    api_service character varying(255) NOT NULL,
     import_id INTEGER NOT NULL
 );
 

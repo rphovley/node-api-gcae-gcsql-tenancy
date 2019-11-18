@@ -8,7 +8,7 @@ export class EndpointController {
       const endpoints = await Endpoint.query()
       res.json({message: 'success', data: endpoints})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -19,7 +19,7 @@ export class EndpointController {
       const endpoint = await Endpoint.query().findById(endpointId)
       res.json({message: 'success', data: endpoint})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -30,7 +30,7 @@ export class EndpointController {
       const endpoint = await Endpoint.query().insert(body)
       res.send({message: 'success', data: endpoint})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -43,7 +43,7 @@ export class EndpointController {
       if(!endpoint) return next({ status: 404, message: `Could not find endpoint with id: ${endpointId}`})
       res.send({message: 'success', data: endpoint})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 
@@ -55,7 +55,7 @@ export class EndpointController {
       if(!endpoint) return next({ status: 404, message: `Could not find endpoint with id: ${endpointId}. May be already deleted.`})
       res.send({message: 'success', data: endpoint})
     }catch(err){
-      return next({status:500, message: 'error', err})
+      return next(err)
     }
   }
 }
