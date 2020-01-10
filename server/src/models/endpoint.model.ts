@@ -11,7 +11,9 @@ export enum ApiService {
 export class Endpoint extends BaseModel {
   static tableName = 'endpoint'
   api_service: string
-
+  params: Param[]
+  query_params: QueryParam[]
+  
   static relationMappings = {
     params: {
       relation: Model.HasManyRelation,
@@ -32,15 +34,17 @@ export class Endpoint extends BaseModel {
   }
 
   $beforeInsert() {
+    super.$beforeInsert()
     this.validateApiService()
   }
 
   $beforeUpdate() {
+    super.$beforeUpdate()
     this.validateApiService()
   }
 
   private validateApiService = () =>{
-    if (!ApiService[this.api_service]) { //if api_service is not one of the services in the ApiService enum
+    if (ApiService[this.api_service] == undefined) { //if api_service is not one of the services in the ApiService enum
       throw new ValidationError({
         message: 'api_service is not a valid value (intrinio or polygonio)',
         type: 'ApiServiceInvalidError',
