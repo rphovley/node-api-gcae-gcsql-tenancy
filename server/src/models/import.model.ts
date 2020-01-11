@@ -4,7 +4,6 @@ import { Endpoint } from './endpoint.model'
 
 
 export class Import extends BaseModel {
-
   static tableName = 'import'
 
   static relationMappings = {
@@ -13,8 +12,8 @@ export class Import extends BaseModel {
       modelClass: Endpoint,
       join: {
         from: 'import.id',
-        to: 'endpoint.import_id'
-      }
-    }
+        to: 'endpoint.import_id',
+      },
+    },
   }
 }

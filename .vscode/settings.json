@@ -1,0 +1,17 @@
+{
+    "window.zoomLevel": 1,
+    "editor.tabSize": 2,
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": false
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": false
+    },
+    "editor.codeActionsOnSave": {"source.fixAll": true},
+    "eslint.validate": [
+      "javascript",
+      "typescript"
+    ],
+}

@@ -1,5 +1,5 @@
-import { BaseRoute } from './base.route'
 import { Router, Request, Response, NextFunction } from 'express'
+import { BaseRoute } from './base.route'
 import { ImportController } from '../controllers/import.controller'
 
 export class ImportRoute extends BaseRoute {

@@ -1,5 +1,5 @@
-import { CustomErrors } from '../utils/customErrors'
 import { RequestHandler, Dictionary } from 'express-serve-static-core'
+import { CustomErrors } from '../utils/customErrors'
 
 class Guard {
   private options: GuardOptions
@@ -7,15 +7,13 @@ class Guard {
   constructor(options = {}) {
     const defaults = {
       requestProperty: 'user',
-      permissionsProperty: 'roles'
+      permissionsProperty: 'roles',
     }
-    this.options = Object.assign({}, defaults, options)
+    this.options = { ...defaults, ...options }
   }
 
   public check(required: string[]): RequestHandler<Dictionary<string>> {
     if (typeof required === 'string') required = [required]
-    return middleware.bind(this)
-
     function middleware(req, res, next): void {
       const user = req[this.options.requestProperty]
       if (!user) {
@@ -31,6 +29,7 @@ class Guard {
       }
       return next() // good to go
     }
+    return middleware.bind(this)
   }
 }
 

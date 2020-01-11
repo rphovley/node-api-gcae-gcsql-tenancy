@@ -12,7 +12,7 @@ class Authentication {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
     issuer: 'accounts.exaplesoft.com',
-    audience: 'yoursite.net'
+    audience: 'yoursite.net',
   }
 
   constructor() {

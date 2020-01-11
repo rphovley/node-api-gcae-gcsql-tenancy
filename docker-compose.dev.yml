@@ -1,27 +1,5 @@
 version: '3'
 services:
-  api:
-    container_name: f0-datalake_api
-    command: bash server/bin/wait-for-it.sh api_db npx gulp
-    environment:
-      NODE_ENV: "development"
-      SERVER_PORT: 8080
-      API_DB_PORT: 5432
-      AUTH_DB_PORT: 5433
-      DB_HOST: "api_db"
-      DB_NAME: "f0-datalake"
-      DB_PASS: ""
-      DB_USER: "f0-datalake"
-    image: gcr.io/fundzero/f0-datalake_api:latest
-    volumes:
-      - ./:/f0-datalake_api/
-    ports:
-      - "8080:8080"
-      - "9222:9222" # open port for inspector to debug
-
-    depends_on:
-      - api_db
-
   api_db:
     container_name: f0-datalake_api_db
     image: postgres:9.6.15

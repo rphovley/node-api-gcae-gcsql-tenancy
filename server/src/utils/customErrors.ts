@@ -25,13 +25,13 @@ export namespace CustomErrors {
     }
   }
 
-  export class UnauthorizedError extends BaseError{
-    constructor(message?: string) {    
+  export class UnauthorizedError extends BaseError {
+    constructor(message?: string) {
       super(message || 'Unauthorized', 401)
     }
   }
 
-  export class PermissionDenied extends BaseError{
+  export class PermissionDenied extends BaseError {
     constructor(message?: string) {
       super(message || 'Permission Denied', 403)
     }

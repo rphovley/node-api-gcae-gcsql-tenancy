@@ -4,13 +4,12 @@ export class BaseModel extends Model {
   created_at: string
   updated_at: string
 
-  $beforeInsert() {
+  $beforeInsert(): void {
     this.created_at = new Date().toISOString()
     this.updated_at = new Date().toISOString()
   }
-  
-  $beforeUpdate() {
+
+  $beforeUpdate(): void {
     this.updated_at = new Date().toISOString()
   }
-  
 }

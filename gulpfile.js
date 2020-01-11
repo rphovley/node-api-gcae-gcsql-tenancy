@@ -3,6 +3,9 @@ const ts = require('gulp-typescript');
 const nodemon = require('gulp-nodemon');
 const eslint = require('gulp-eslint');
 
+var sourcemaps = require('gulp-sourcemaps');
+
+
 const tsProject = ts.createProject('./tsconfig.json');
 const DESTINATION = 'server/dist';
 
@@ -13,7 +16,7 @@ function watchNode(done) {
     ext: 'ts',
     watch: ['**/*.ts', '**/*.js'],
     ignore: ['node_modules', 'migrations', 'scripts', 'seeds', 'test', 'server/dist', 'tmp'],
-    exec: 'nodemon --nolazy --inspect=0.0.0.0:9222 -L ./server/bin/www',
+    exec: 'nodemon --nolazy --inspect ./server/bin/www',
     done,
     verbose: true,
   })
@@ -27,14 +30,15 @@ function watchNode(done) {
 
 function compilejs(done) {
   return tsProject.src()
+    .pipe(sourcemaps.init())
     .pipe(tsProject())
+    .pipe(sourcemaps.write('./'))
     .on('error', () => {
       done();
       process.exit(1);
     })
     .pipe(gulp.dest(DESTINATION))
 }
-
 
 function lint() {
   return gulp.src(['server/src/**/*.{ts,js}'])

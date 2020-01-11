@@ -13,42 +13,43 @@ export class Endpoint extends BaseModel {
   api_service: string
   params: Param[]
   query_params: QueryParam[]
-  
+
   static relationMappings = {
     params: {
       relation: Model.HasManyRelation,
       modelClass: Param,
       join: {
         from: 'endpoint.id',
-        to: 'param.endpoint_id'
-      }
+        to: 'param.endpoint_id',
+      },
     },
     query_params: {
       relation: Model.HasManyRelation,
       modelClass: QueryParam,
       join: {
         from: 'endpoint.id',
-        to: 'query_param.endpoint_id'
-      }
-    }
+        to: 'query_param.endpoint_id',
+      },
+    },
   }
 
-  $beforeInsert() {
+  $beforeInsert(): void {
     super.$beforeInsert()
     this.validateApiService()
   }
 
-  $beforeUpdate() {
+  $beforeUpdate(): void {
     super.$beforeUpdate()
     this.validateApiService()
   }
 
-  private validateApiService = () =>{
-    if (ApiService[this.api_service] == undefined) { //if api_service is not one of the services in the ApiService enum
+  private validateApiService = (): void => {
+    // if api_service is not one of the services in the ApiService enum
+    if (ApiService[this.api_service] == undefined) {
       throw new ValidationError({
         message: 'api_service is not a valid value (intrinio or polygonio)',
         type: 'ApiServiceInvalidError',
-        data: this.toJSON()
+        data: this.toJSON(),
       })
     }
   }
