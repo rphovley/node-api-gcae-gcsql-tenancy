@@ -38,9 +38,11 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       'warn', { args: 'none' } // allows function params/arguments to not be used (e.g. Express middleware)
     ],
+    '@typescript-eslint/no-use-before-define':0,
     '@typescript-eslint/member-delimiter-style': 0,
     '@typescript-eslint/camelcase': 0,
-    'import/no-extraneous-dependencies': [2, { devDependencies: ['**/test.tsx', '**/test.ts'] }],
+    '@typescript-eslint/interface-name-prefix': 0,
+    'import/no-extraneous-dependencies': [2, { devDependencies: ['**/test.tsx', '**/test.ts', 'test/**/*.ts', 'knex/**.ts'] }],
     "import/extensions": [
       "error",
       "ignorePackages",

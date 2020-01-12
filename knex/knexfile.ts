@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 require('ts-node/register')
 
 // eslint-disable-next-line import/first

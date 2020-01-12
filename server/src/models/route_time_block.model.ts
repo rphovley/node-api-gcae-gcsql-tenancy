@@ -1,21 +1,21 @@
 import { Model } from 'objection'
 import { BaseModel } from './base.model'
 
-export interface iRouteTimeBlock {
+export interface IRouteTimeBlock {
   name: string
   start_time: string
   end_time: string
   route_id: number
 }
 
-export class RouteTimeBlock extends BaseModel implements iRouteTimeBlock {
+export class RouteTimeBlock extends BaseModel implements IRouteTimeBlock {
   name: string
   start_time: string
   end_time: string
   route_id: number
   static tableName = 'route_time_block'
-  
-  static get relationMappings() { 
+
+  static get relationMappings() {
     return {
       route: {
         relation: Model.BelongsToOneRelation,
@@ -24,7 +24,7 @@ export class RouteTimeBlock extends BaseModel implements iRouteTimeBlock {
           from: 'route_time_block.route_id',
           to: 'route.id',
         },
-      }
+      },
     }
   }
 }

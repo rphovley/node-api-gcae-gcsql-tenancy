@@ -1,10 +1,10 @@
-import * as Knex from "knex"
-import { iRoute, Route as RouteModel } from '../../server/src/models/route.model'
+import * as Knex from 'knex'
+import { IRoute, Route as RouteModel } from '../../server/src/models/route.model'
 
-export const route = (route: iRoute): iRoute =>{
-  return route
+export const route = (routeData: IRoute): IRoute => {
+  return routeData
 }
 
-export const Route = async (knex: Knex, routeData?: iRoute): Promise<RouteModel> => {
-  return await RouteModel.query(knex).insert(route(routeData))
+export const Route = async (knex: Knex, routeData?: IRoute): Promise<RouteModel> => {
+  return RouteModel.query(knex).insert(route(routeData))
 }
