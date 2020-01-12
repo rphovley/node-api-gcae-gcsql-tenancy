@@ -1,4 +1,4 @@
-import { Model } from 'objection'
+import { Model, ValidationError } from 'objection'
 import { BaseModel } from './base.model'
 import { Car } from './car.model'
 import { RouteTimeBlock } from './route_time_block.model'
@@ -51,5 +51,26 @@ export class Reservation extends BaseModel implements IReservation {
         to: 'app_user.id',
       },
     },
+  }
+
+  $beforeInsert(): void {
+    super.$beforeInsert()
+    this.validateStatus()
+  }
+
+  $beforeUpdate(): void {
+    super.$beforeUpdate()
+    this.validateStatus()
+  }
+
+  private validateStatus = (): void => {
+    // if status is not one of the types in the Status enum
+    if (Status[this.status] == undefined) {
+      throw new ValidationError({
+        message: 'The status is not a valid value (started, approved, rejected)',
+        type: 'StatusInvalidError',
+        data: this.toJSON(),
+      })
+    }
   }
 }
