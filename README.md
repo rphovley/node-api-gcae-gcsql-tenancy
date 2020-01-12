@@ -13,6 +13,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Run `yarn` to install dependencies
 - Run `yarn start-db` to the postgres db container
 - Go to the `knex` directory and run `knex migrate:latest` to run db migrations.
+- From the `knex` directory run `knex seed:run` to run seeds for basic data.
 - Run `yarn start` to start the api. This will also compile typescript into javascript and watch for any changes. 
 
 ## Linting 
@@ -21,6 +22,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Testing
 - See [Jokes](#jokes) section
+- The `test` directory contains helper factory functions to create objects. A lowercase `car` returns an object, while uppercase `Car` inserts a `car` object into the database and returns an Objection Model. All factories are patterned after this.
 
 ## Knex | Objection
 - This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
@@ -40,3 +42,13 @@ All of these were noted from my machine at the time and may not be the lower lim
 - What did Neil Armstrong say when no one laughed at his moon jokes?  
 “I guess you had to be there.”  
 - Testing
+
+
+TODO: Add all base models/routes
+TODO: Fix Linter
+TODO: Make Postman Documentation Examples
+TODO: API basic documentation implemented
+TODO: Basic testing implemented
+TODO: Add validations for models
+TODO: Add logic for reservation system
+TODO: Implement Auth/Login
