@@ -1,24 +1,5 @@
 version: '3'
 services:
-  api:
-    container_name: red-ride_api_test
-    command: bash server/bin/wait-for-it.sh postgresql npx gulp
-    environment:
-      NODE_ENV: "test"
-      DB_HOST: "postgresql"
-      DB_NAME: "test"
-      DB_PASS: ""
-      DB_USER: "test"
-    image: gcr.io/fundzero/red-ride_api:latest
-    volumes:
-      - ./server:/red-ride_api/server
-      - ./test:/red-ride_api/test
-      - ./migrations:/red-ride_api/migrations
-    ports:
-      - "3031:3030"
-    depends_on:
-      - postgresql
-
   postgresql:
     container_name: red-ride_db_test
     image: postgres:9.6.15
@@ -28,6 +9,6 @@ services:
       POSTGRES_USER: "test"
       POSTGRES_PASSWORD: ""
     volumes:
-      - ./tmp/postgresql-data-test:/var/lib/postgresql/data/pgdata
+      - ./data/postgresql-data-test:/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
