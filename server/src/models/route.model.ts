@@ -4,13 +4,13 @@ import { Location } from './location.model'
 import { RouteTimeBlock } from './route_time_block.model'
 
 
-export interface iRoute {
+export interface IRoute {
   name: string
   starts_at_id: number
   ends_at_id: number
 }
 
-export class Route extends BaseModel implements iRoute {
+export class Route extends BaseModel implements IRoute {
   name: string
   starts_at_id: number
   ends_at_id: number
@@ -38,8 +38,8 @@ export class Route extends BaseModel implements iRoute {
       modelClass: RouteTimeBlock,
       join: {
         from: 'route_time_block.route_id',
-        to: 'route.id'
-      }
-    }
+        to: 'route.id',
+      },
+    },
   }
 }

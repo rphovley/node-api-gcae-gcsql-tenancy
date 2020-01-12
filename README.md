@@ -44,10 +44,8 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Testing
 
 
-TODO: Add all base models/routes
 TODO: Fix Linter
 TODO: Make Postman Documentation Examples
-TODO: API basic documentation implemented
 TODO: Basic testing implemented
 TODO: Add validations for models
 TODO: Add logic for reservation system

@@ -4,8 +4,8 @@ export class BaseModel extends Model {
   id: number
   created_at: string
   updated_at: string
-  static get modelPaths() {
-    return [__dirname];
+  static get modelPaths(): string[] {
+    return [__dirname]
   }
   $beforeInsert(): void {
     this.created_at = new Date().toISOString()

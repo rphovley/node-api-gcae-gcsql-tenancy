@@ -1,9 +1,10 @@
 import { BaseModel } from './base.model'
 
-const roles = <const> ['admin', 'rider'];
-type Roles = typeof roles[number];
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const roles = <const> ['admin', 'rider']
+type Roles = typeof roles[number]
 
-export interface iAppUser {
+export interface IAppUser {
   firebase_id: string
   first_name: string
   last_name: string
@@ -14,7 +15,7 @@ export interface iAppUser {
   current_insurance_exp: string
 }
 
-export class AppUser extends BaseModel implements iAppUser {
+export class AppUser extends BaseModel implements IAppUser {
   firebase_id: string
   first_name: string
   last_name: string

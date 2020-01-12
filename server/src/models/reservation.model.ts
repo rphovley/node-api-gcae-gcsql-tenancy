@@ -5,12 +5,12 @@ import { RouteTimeBlock } from './route_time_block.model'
 import { AppUser } from './app_user.model'
 
 export enum Status {
-  started = "started",
-  approved = "approved",
-  rejected = "rejected"
+  started = 'started',
+  approved = 'approved',
+  rejected = 'rejected'
 }
 
-export interface iReservation {
+export interface IReservation {
   date: string
   status: Status
   route_time_block_id: number
@@ -18,7 +18,7 @@ export interface iReservation {
   app_user_id: number
 }
 
-export class Reservation extends BaseModel implements iReservation {
+export class Reservation extends BaseModel implements IReservation {
   date: string
   status: Status
   route_time_block_id: number
@@ -50,6 +50,6 @@ export class Reservation extends BaseModel implements iReservation {
         from: 'reservation.app_user_id',
         to: 'app_user.id',
       },
-    }
+    },
   }
 }

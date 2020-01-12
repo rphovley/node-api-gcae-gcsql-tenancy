@@ -1,13 +1,13 @@
-import * as Knex from "knex"
-import { iLocation, Location as LocationModel } from '../../server/src/models/location.model'
+import * as Knex from 'knex'
+import { ILocation, Location as LocationModel } from '../../server/src/models/location.model'
 
-export const location = (location?: iLocation): iLocation =>{
-  return { 
-    name: "Salt Lake City",
-    ...location,  
+export const location = (locationData?: ILocation): ILocation => {
+  return {
+    name: 'Salt Lake City',
+    ...locationData,
   }
 }
 
-export const Location = async (knex: Knex, locationData?: iLocation): Promise<LocationModel> => {
-  return await LocationModel.query(knex).insert(location(locationData))
+export const Location = async (knex: Knex, locationData?: ILocation): Promise<LocationModel> => {
+  return LocationModel.query(knex).insert(location(locationData))
 }

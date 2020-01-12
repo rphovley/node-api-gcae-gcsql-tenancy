@@ -3,13 +3,13 @@ import { BaseModel } from './base.model'
 import { CarType } from './car.model'
 import { Route } from './route.model'
 
-export interface iPrice {
+export interface IPrice {
   price: string
   route_id: number
   car_type: CarType
 }
 
-export class Price extends BaseModel implements iPrice{
+export class Price extends BaseModel implements IPrice {
   price: string
   route_id: number
   car_type: CarType
@@ -24,6 +24,6 @@ export class Price extends BaseModel implements iPrice{
         from: 'price.route_id',
         to: 'route.id',
       },
-    }
+    },
   }
 }

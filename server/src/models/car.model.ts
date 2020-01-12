@@ -1,23 +1,22 @@
 import { BaseModel } from './base.model'
 
 export enum CarType {
-  Three = "Three",
-  S = "S",
-  X = "X"
+  Three = 'Three',
+  S = 'S',
+  X = 'X'
 }
 
-export interface iCar {
+export interface ICar {
   name: string
   plate: string
   year: string
   type: CarType
 }
 
-export class Car extends BaseModel implements iCar{
+export class Car extends BaseModel implements ICar {
   name: string
   plate: string
   year: string
   type: CarType
   static tableName = 'car'
-
 }
