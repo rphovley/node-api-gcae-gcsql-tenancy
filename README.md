@@ -20,7 +20,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Install dbaeumer.vscode-eslint AND esbenp.prettier-vscode extensions to vscode
 
 ## Testing
-- See`Jokes` section
+- See [Jokes](#jokes) section
 
 ## Knex | Objection
 - This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
