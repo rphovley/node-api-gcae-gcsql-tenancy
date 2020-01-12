@@ -1,6 +1,6 @@
 FROM node:12.13.0
 
-ENV APP_DIRECTORY=/f0-datalake_api
+ENV APP_DIRECTORY=/red-ride_api
 
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \

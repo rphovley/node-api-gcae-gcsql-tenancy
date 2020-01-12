@@ -14,6 +14,6 @@ services:
         monitor: 5s
     env_file:
       - api.env
-    image: gcr.io/fundzero/f0-datalake_api:latest
+    image: gcr.io/fundzero/red-ride_api:latest
     ports:
       - "3030:3030"

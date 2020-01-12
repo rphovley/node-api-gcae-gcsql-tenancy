@@ -7,7 +7,31 @@
     {
       "type": "node",
       "request": "attach",
+      "name": "Attach",
+      "restart": true,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Debug",
+      "restart": true,
+      "program": "${workspaceFolder}/server/bin/www",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Migrations",
+      "program": "${workspaceFolder}/migrations/migration.js",
       "restart": true,
       "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
       "skipFiles": [

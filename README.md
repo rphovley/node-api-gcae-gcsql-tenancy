@@ -12,12 +12,18 @@ All of these were noted from my machine at the time and may not be the lower lim
 ## Quick Start
 - Run `yarn` to install dependencies
 - Run `yarn start-db` to the postgres db container
+- Go to the `knex` directory and run `knex migrate:latest` to run db migrations.
 - Run `yarn start` to start the api. This will also compile typescript into javascript and watch for any changes. 
 
 ## Linting 
+- Uses the .eslintrc.js file at the root of the project to configure different rules for the project. 
+- Install dbaeumer.vscode-eslint AND esbenp.prettier-vscode extensions to vscode
 
 ## Testing
 - See`Jokes` section
+
+## Knex | Objection
+- This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
 
 ### Notes
 - The entry point file is at `server/bin/www`, which bootstraps the server and starts listening. 

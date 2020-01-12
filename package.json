@@ -1,11 +1,11 @@
 {
-  "name": "f0-datalake",
+  "name": "red-ride",
   "version": "1.0.0",
   "description": "",
   "main": "start.js",
   "repository": {
     "type": "git",
-    "url": "https://source.developers.google.com/p/fundzero/r/f0-datalake"
+    "url": "https://source.developers.google.com/p/fundzero/r/red-ride"
   },
   "author": "350Labs",
   "license": "UNLICENSED",
@@ -13,6 +13,10 @@
     "start": "bash scripts/start-api.sh",
     "start-db": "bash scripts/start-db.sh",
     "test": "echo 'yar, I wish I had some tests to run matey.",
+    "logs": "docker-compose -p red-ride -f docker-compose.dev.yml logs -f",
+    "kill": "docker-compose -p red-ride -f docker-compose.dev.yml kill",
+    "connect": "docker exec -it red-ride_api_db psql -U red-ride",
+    "compile": "gulp compilejs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
@@ -20,8 +24,8 @@
     "bookshelf": "^1.0.1",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "gulp-sourcemaps": "^2.6.5",
     "knex": "^0.19.5",
     "morgan": "^1.9.1",
     "objection": "^1.6.11",
@@ -50,9 +54,11 @@
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "gulp-nodemon": "^2.4.2",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
     "mocha": "^6.2.1",
     "prettier-eslint": "^9.0.1",
+    "ts-node": "^8.6.1",
     "typescript": "^3.6.4"
   }
 }
