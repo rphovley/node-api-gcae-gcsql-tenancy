@@ -4,7 +4,7 @@ import { Route } from '../models/route.model'
 export class RouteController {
   public static async index(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
-      const routes = await Route.query().eager('[starts_at, ends_at]')
+      const routes = await Route.query().eager('[starts_at, ends_at, time_blocks]')
       res.json({ message: 'success', data: routes })
     } catch (err) {
       return next(err)
@@ -15,7 +15,7 @@ export class RouteController {
     const routeId = req.params.id
     if (!routeId) return next({ status: 422, message: 'id required to update Route' })
     try {
-      const routes = await Route.query().findById(routeId).eager('[starts_at, ends_at]')
+      const routes = await Route.query().findById(routeId).eager('[starts_at, ends_at, time_blocks]')
       res.json({ message: 'success', data: routes })
     } catch (err) {
       return next(err)

@@ -1,6 +1,7 @@
 import { Model } from 'objection'
 import { BaseModel } from './base.model'
 import { Location } from './location.model'
+import { RouteTimeBlock } from './route_time_block.model'
 
 
 export interface iRoute {
@@ -32,5 +33,13 @@ export class Route extends BaseModel implements iRoute {
         to: 'location.id',
       },
     },
+    time_blocks: {
+      relation: Model.HasManyRelation,
+      modelClass: RouteTimeBlock,
+      join: {
+        from: 'route_time_block.route_id',
+        to: 'route.id'
+      }
+    }
   }
 }

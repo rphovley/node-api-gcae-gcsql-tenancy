@@ -7,11 +7,9 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
       table.string('price').notNullable()
+      table.string('car_type').notNullable()
       table.integer('route_id').unsigned().notNullable().references('id')
         .inTable('route')
-        .index()
-      table.integer('car_id').unsigned().notNullable().references('id')
-        .inTable('car')
         .index()
     })
 }

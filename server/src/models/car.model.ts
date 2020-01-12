@@ -1,28 +1,23 @@
-// import { Model } from 'objection'
 import { BaseModel } from './base.model'
+
+export enum CarType {
+  Three = "Three",
+  S = "S",
+  X = "X"
+}
 
 export interface iCar {
   name: string
   plate: string
   year: string
-  type: "3" | "S" | "X"
+  type: CarType
 }
 
 export class Car extends BaseModel implements iCar{
   name: string
   plate: string
   year: string
-  type: "3" | "S" | "X"
+  type: CarType
   static tableName = 'car'
 
-  // static relationMappings = {
-  //   endpoints: {
-  //     relation: Model.HasManyRelation,
-  //     modelClass: Endpoint,
-  //     join: {
-  //       from: 'import.id',
-  //       to: 'endpoint.import_id',
-  //     },
-  //   },
-  // }
 }
