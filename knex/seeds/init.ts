@@ -1,11 +1,13 @@
 import * as Knex from "knex"
 import { CarType }from '../../server/src/models/car.model'
+import { Status }from '../../server/src/models/reservation.model'
 import { Car } from '../../test/factories/car.factory'
 import { Location } from '../../test/factories/location.factory'
 import { AppUser } from '../../test/factories/app_user.factory'
 import { Route } from '../../test/factories/route.factory'
 import { RouteTimeBlock } from '../../test/factories/route_time_block.factory'
 import { Price } from '../../test/factories/price.factory'
+import { Reservation } from '../../test/factories/reservation.factory'
 
 export async function seed(knex: Knex): Promise<void> {
   //Clean db
@@ -44,9 +46,33 @@ export async function seed(knex: Knex): Promise<void> {
   //Price Seeds
   const slcToStGeorge3Price = await Price(knex, { price: "120", car_type: CarType.Three, route_id: slcToStGeorge.id })
   const stGeorgeToSLC3Price = await Price(knex, { price: "120", car_type: CarType.Three, route_id: slcToStGeorge.id })
+
+  //Reservation Seeds
+  const rider1RedRiderMorningDec3 = await Reservation(knex, { 
+    app_user_id: rider1.id, 
+    route_time_block_id: slcToStGeorgeMorning.id, 
+    car_id: redLeader.id, 
+    date: (new Date("12-03-2019")).toISOString(),
+    status: Status.started
+  })
+  const rider1RedRiderEveningDec3 = await Reservation(knex, { 
+    app_user_id: rider1.id, 
+    route_time_block_id: slcToStGeorgeEvening.id, 
+    car_id: redLeader.id, 
+    date: (new Date("12-03-2019")).toISOString(),
+    status: Status.started
+  })
+  const elonRedRiderEveningDec3 = await Reservation(knex, { 
+    app_user_id: elon.id, 
+    route_time_block_id: stGeorgeToSLCEvening.id, 
+    car_id: redLeader.id, 
+    date: (new Date("12-04-2019")).toISOString(),
+    status: Status.started
+  })
 }
 
 const deleteRecords = async (knex: Knex) => {
+  await knex("reservation").del()
   await knex("price").del()
   await knex("route_time_block").del()
   await knex("route").del()
