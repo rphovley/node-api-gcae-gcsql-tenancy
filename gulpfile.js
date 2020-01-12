@@ -17,6 +17,7 @@ function watchNode(done) {
     watch: ['**/*.ts', '**/*.js'],
     ignore: ['node_modules', 'migrations', 'scripts', 'seeds', 'test', 'server/dist', 'tmp'],
     exec: 'nodemon --nolazy --inspect ./server/bin/www',
+    tasks: ['compilejs'],
     done,
     verbose: true,
   })
