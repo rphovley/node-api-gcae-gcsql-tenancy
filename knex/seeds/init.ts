@@ -1,22 +1,24 @@
 import * as Knex from "knex"
+import { CarType }from '../../server/src/models/car.model'
 import { Car } from '../../test/factories/car.factory'
 import { Location } from '../../test/factories/location.factory'
 import { AppUser } from '../../test/factories/app_user.factory'
-import { route, Route } from '../../test/factories/route.factory.ts'
+import { Route } from '../../test/factories/route.factory'
+import { RouteTimeBlock } from '../../test/factories/route_time_block.factory'
+import { Price } from '../../test/factories/price.factory'
 
 export async function seed(knex: Knex): Promise<void> {
+  //Clean db
+  await deleteRecords(knex)
   //Car Seeds
-  await knex("car").del()     
-  const redLeader = await Car(knex, { name: "Red Leader", plate: "R3dL3ad3r", year: "2019", type: "3" })
-  const redOctober = await Car(knex, { name: "Red October", plate:"R3dOctob3r", year: "2019", type: "3" })
+  const redLeader = await Car(knex, { name: "Red Leader", plate: "R3dL3ad3r", year: "2019", type: CarType.Three })
+  const redOctober = await Car(knex, { name: "Red October", plate:"R3dOctob3r", year: "2019", type: CarType.Three })
 
   //Location Seeds
-  await knex("location").del()
   const slc = await Location(knex, { name: "Salt Lake City"})
   const stGeorge = await Location(knex, { name: "St. George" })
 
   //User Seeds
-  await knex("app_user").del()
   const elon = await AppUser(knex, { 
     firebase_id: "xxxxxx",
     first_name: "Elon",
@@ -30,7 +32,25 @@ export async function seed(knex: Knex): Promise<void> {
   const rider1 = await AppUser(knex)
 
   //Route Seeds
-  await knex("route").del()
   const slcToStGeorge = await Route(knex, { name: "SLC to St. George", starts_at_id: slc.id, ends_at_id: stGeorge.id })
   const stGeorgeToSLC = await Route(knex, { name: "St. George to SLC", starts_at_id: stGeorge.id, ends_at_id: slc.id })
+
+  //Route Time Block Seeds
+  const slcToStGeorgeMorning = await RouteTimeBlock(knex, { name: "SLC to St. George Morning", start_time: "8:00 am", end_time: "5:00 pm", route_id: slcToStGeorge.id })
+  const slcToStGeorgeEvening = await RouteTimeBlock(knex, { name: "SLC to St. George Evening", start_time: "6:00 pm", end_time: "7:00 am", route_id: slcToStGeorge.id })
+  const stGeorgeToSLCMorning = await RouteTimeBlock(knex, { name: "St. George to SLC Morning", start_time: "8:00 am", end_time: "5:00 pm", route_id: stGeorgeToSLC.id })
+  const stGeorgeToSLCEvening = await RouteTimeBlock(knex, { name: "St. George to SLC Evening", start_time: "6:00 pm", end_time: "7:00 am", route_id: stGeorgeToSLC.id })
+  
+  //Price Seeds
+  const slcToStGeorge3Price = await Price(knex, { price: "120", car_type: CarType.Three, route_id: slcToStGeorge.id })
+  const stGeorgeToSLC3Price = await Price(knex, { price: "120", car_type: CarType.Three, route_id: slcToStGeorge.id })
+}
+
+const deleteRecords = async (knex: Knex) => {
+  await knex("price").del()
+  await knex("route_time_block").del()
+  await knex("route").del()
+  await knex("app_user").del()
+  await knex("location").del()
+  await knex("car").del()     
 }
