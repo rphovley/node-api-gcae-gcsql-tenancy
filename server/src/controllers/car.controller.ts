@@ -15,7 +15,7 @@ export class CarController {
     const carId = req.params.id
     if (!carId) return next({ status: 422, message: 'id required to update Car' })
     try {
-      const cars = await Car.query().findById(carId).eager('endpoints')
+      const cars = await Car.query().findById(carId)
       res.json({ message: 'success', data: cars })
     } catch (err) {
       return next(err)

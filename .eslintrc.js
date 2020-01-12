@@ -1,21 +1,3 @@
-// module.exports = {
-//   parser: '@typescript-eslint/parser',
-//   parserOptions: {
-//     project: './tsconfig.json',
-//   },
-//   extends: ['plugin:@typescript-eslint/recommended'],
-//   plugins: ['@typescript-eslint'],
-//   rules: {
-//     '@typescript-eslint/no-unused-vars': [
-//       'warn', { args: 'none' } // allows function params/arguments to not be used (e.g. Express middleware)
-//     ],
-//     '@typescript-eslint/ban-types': 0,
-//     '@typescript-eslint/no-namespace': 0,
-//     '@typescript-eslint/semi': 0,
-//     '@typescript-eslint/no-use-before-define': ['error', { 'functions': false, 'classes': false }]
-//   }
-// };
-
 module.exports = {
   extends: ['airbnb', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
