@@ -1,29 +1,24 @@
-import { RequestHandler, Dictionary } from 'express-serve-static-core'
+import { RequestHandler } from 'express-serve-static-core'
 import { CustomErrors } from '../utils/customErrors'
 
 class Guard {
-  private options: GuardOptions
-
-  constructor(options = {}) {
-    const defaults = {
-      requestProperty: 'user',
-      permissionsProperty: 'roles',
-    }
-    this.options = { ...defaults, ...options }
+  private options: GuardOptions = {
+    requestProperty: 'user',
+    userRolesProperty: 'roles',
   }
 
-  public check(required: string[]): RequestHandler<Dictionary<string>> {
-    if (typeof required === 'string') required = [required]
+  public check(requiredRoles: string[]): RequestHandler {
+    if (typeof requiredRoles === 'string') requiredRoles = [requiredRoles]
     function middleware(req, res, next): void {
       const user = req[this.options.requestProperty]
       if (!user) {
         return next(new CustomErrors.PermissionDenied('user object not found, check configuration'))
       }
-      const permissions = user[this.options.permissionsProperty]
-      if (!Array.isArray(permissions)) {
-        return next(new CustomErrors.PermissionDenied('User permissions should be an array. Check configuration'))
+      const userRoles = user[this.options.userRolesProperty]
+      if (!Array.isArray(userRoles)) {
+        return next(new CustomErrors.PermissionDenied('User userRoles should be an array. Check configuration'))
       }
-      const sufficient = required.some(v => permissions.includes(v))
+      const sufficient = requiredRoles.some(v => userRoles.includes(v))
       if (!sufficient) {
         return next(new CustomErrors.PermissionDenied())
       }
@@ -35,7 +30,7 @@ class Guard {
 
 interface GuardOptions {
   requestProperty: string
-  permissionsProperty: string
+  userRolesProperty: string
 }
 
 export const guard = new Guard()

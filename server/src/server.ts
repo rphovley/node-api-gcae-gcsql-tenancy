@@ -43,6 +43,7 @@ export class Server {
     this.app.use(morgan('dev'))
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
+    this.app.use(auth.firebaseAuth())
     // this.app.use(auth.passport.initialize())
     // this.app.use(auth.authMiddleware())
   }

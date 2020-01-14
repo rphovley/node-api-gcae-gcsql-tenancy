@@ -22,7 +22,7 @@ export async function seed(knex: Knex): Promise<void> {
 
   // User Seeds
   const elon = await AppUser(knex, {
-    firebase_id: 'xxxxxx',
+    firebase_id: 'UD80FuSVhJWkX0Qa8psDWxnVoM53',
     first_name: 'Elon',
     last_name: 'Musk',
     roles: ['admin'],

@@ -9,8 +9,8 @@ server/dist
 # Environment Vars #
 ####################
 env
-.env
-.env.test
+*.env
+*.env.test
 
 # OS generated files #
 ######################

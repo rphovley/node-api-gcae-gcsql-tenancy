@@ -44,8 +44,9 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Testing
 
 
-TODO: Add validations for models
 TODO: Implement Auth/Login
+TODO: Add Logger
 TODO: Add logic for reservation system
+TODO: Add validations for models
 TODO: Make Postman Documentation Examples
 TODO: Basic testing implemented
