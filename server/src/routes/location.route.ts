@@ -1,10 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { BaseRoute } from './base.route'
 import { LocationController } from '../controllers/location.controller'
+import { guard } from '../middleware/guard'
 
 export class LocationRoute extends BaseRoute {
   public static create(router: Router): void {
-    router.get('/api/locations', (req: Request, res: Response, next: NextFunction) => {
+    router.get('/api/locations', guard.check(['admin']), (req: Request, res: Response, next: NextFunction) => {
       LocationController.index(req, res, next)
     })
     router.get('/api/locations/:id', (req: Request, res: Response, next: NextFunction) => {

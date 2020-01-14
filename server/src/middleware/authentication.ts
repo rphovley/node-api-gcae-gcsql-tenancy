@@ -1,43 +1,44 @@
-import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt'
-import passport from 'passport'
 import { Request, Response, NextFunction } from 'express'
+import { CustomErrors } from '../utils/customErrors'
+import { initializeFirebase, admin } from '../utils/firebase_config'
+import { AppUser } from '../models/app_user.model'
+
+require('../utils/logger')
 
 class Authentication {
-  public passport: passport.PassportStatic = passport
+  constructor() {
+    initializeFirebase()
+  }
   public whiteList: string[] = [
     // Add unprotected endpoints here
     '/api/test',
   ]
-  private strategyOptions: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret',
-    issuer: 'accounts.exaplesoft.com',
-    audience: 'yoursite.net',
-  }
 
-  constructor() {
-    this.configurePassport()
-  }
-
-  public authMiddleware() {
-    return (req: Request, res: Response, next: NextFunction): void => {
+  public firebaseAuth() {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       if (this.whiteList.find(x => x === req.url)) {
         return next()
       }
-      return this.passport.authenticate('jwt')(req, res, next)
+      try {
+        // eslint-disable-next-line dot-notation
+        req['appUser'] = await Authentication.getUser(req.headers.authorization)
+      } catch (err) {
+        return next(new CustomErrors.UnauthorizedError())
+      }
+      return next()
     }
   }
 
-  private configurePassport(): void {
-    this.passport.use(new Strategy(this.strategyOptions, (jwtPayload, done) => {
-      console.log('passport middleware!', jwtPayload)
-    // EXAMPLE
-      // User.findOne({id: jwtPayload.sub}, function(err, user) {
-      //   if (err) return done(err, false)
-      //   if (!user) return done(null, false)
-      //   return done(null, user)
-      // })
-    }))
+  private static async getUser(token): Promise<AppUser> {
+    let appUser
+    try {
+      const fUser = await admin.auth().verifyIdToken(token)
+      appUser = await AppUser.query().findOne({ firebase_id: fUser.uid })
+    } catch (err) {
+      if (err.code.indexOf('auth') > -1) console.log(err) // report error to error service if from firebase
+      throw new CustomErrors.UnauthorizedError()
+    }
+    return appUser
   }
 }
 
