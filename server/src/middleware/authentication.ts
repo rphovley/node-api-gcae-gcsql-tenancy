@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { CustomErrors } from '../utils/customErrors'
 import { initializeFirebase, admin } from '../utils/firebase_config'
 import { AppUser } from '../models/app_user.model'
-
-require('../utils/logger')
+import { getLogger } from '../utils/logger'
 
 class Authentication {
   constructor() {
@@ -11,7 +10,7 @@ class Authentication {
   }
   public whiteList: string[] = [
     // Add unprotected endpoints here
-    '/api/test',
+    // '/api/test',
   ]
 
   public firebaseAuth() {
@@ -35,7 +34,9 @@ class Authentication {
       const fUser = await admin.auth().verifyIdToken(token)
       appUser = await AppUser.query().findOne({ firebase_id: fUser.uid })
     } catch (err) {
-      if (err.code.indexOf('auth') > -1) console.log(err) // report error to error service if from firebase
+      if (!(err.code.indexOf('id-token-expired') > -1)) {
+        getLogger().error(err) // report error to error service if from firebase
+      }
       throw new CustomErrors.UnauthorizedError()
     }
     return appUser
