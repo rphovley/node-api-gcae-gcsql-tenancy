@@ -20,6 +20,9 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Uses the .eslintrc.js file at the root of the project to configure different rules for the project. 
 - Install dbaeumer.vscode-eslint AND esbenp.prettier-vscode extensions to vscode
 
+## Logger
+- We are using `@google-cloud/logging-bunyan` for our logging. In order for it to send it to google cloud you'll need to setup google cloud on your machine. visit [google documentation](https://cloud.google.com/logging/docs/setup/nodejs) for details
+  
 ## Testing
 - See [Jokes](#jokes) section
 - The `test` directory contains helper factory functions to create objects. A lowercase `car` returns an object, while uppercase `Car` inserts a `car` object into the database and returns an Objection Model. All factories are patterned after this.

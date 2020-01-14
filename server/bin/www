@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 
 "use strict";
+const env = process.env.NODE_ENV ? `${process.env.NODE_ENV}` : ''
+require('dotenv').config({
+  path: `${__dirname}/.log.env${env}`,
+})
 
+console.log()
 //module dependencies
 const server = require("../dist/server");
-const debug = require("debug")("express:server");
 
 //create http server
 const Server = server.Server.bootstrap();

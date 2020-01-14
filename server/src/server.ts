@@ -9,6 +9,8 @@ import * as db from './utils/db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
+import { getLogger } from './utils/logger'
+// Imports the Google Cloud client library
 
 const PORT_FALLBACK = '8080'
 
@@ -64,9 +66,9 @@ export class Server {
       if (err == null) err = {}
       console.log('\x1b[31m', err)
       if (err instanceof BaseError) {
-        console.log('===================================== is custom error')
         res.status(err.status).json({ message: err.message, err })
       } else {
+        getLogger().error(err) // only send log to google if is not an expected error
         res.status(err.status || err.statusCode || 500).json({ message: err.message || 'Internal Server Error', err })
       }
     })
