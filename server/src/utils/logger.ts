@@ -15,7 +15,7 @@ const getLogger = () => {
     logger = bunyan.createLogger({
     // The JSON payload of the log as it appears in Stackdriver Logging
     // will contain "name": "my-service"
-      name: 'RR3',
+      name: 'RedPandaEvents',
       streams: [
       // Log to the console at 'info' and above
         { stream: process.stdout, level: 'info' },

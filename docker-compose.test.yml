@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgresql:
-    container_name: red-ride_db_test
+    container_name: red-panda_db_test
     image: postgres:9.6.15
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"

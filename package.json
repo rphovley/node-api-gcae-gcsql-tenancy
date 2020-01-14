@@ -1,21 +1,21 @@
 {
-  "name": "red-ride",
+  "name": "red-panda",
   "version": "1.0.0",
   "description": "",
   "main": "start.js",
   "repository": {
     "type": "git",
-    "url": "https://source.developers.google.com/p/fundzero/r/red-ride"
+    "url": "git@gitlab.com:350labs/redpanda/api.git"
   },
   "author": "350Labs",
   "license": "UNLICENSED",
   "scripts": {
     "start": "bash scripts/start-api.sh",
     "start-db": "bash scripts/start-db.sh",
-    "test": "echo 'yar, I wish I had some tests to run matey.",
-    "logs": "docker-compose -p red-ride -f docker-compose.dev.yml logs -f",
-    "kill": "docker-compose -p red-ride -f docker-compose.dev.yml kill",
-    "connect": "docker exec -it red-ride_api_db psql -U red-ride",
+    "test": "ts-mocha --paths -p server/src/tsconfig.json test/**/*.test.ts",
+    "logs": "docker-compose -p red-panda -f docker-compose.dev.yml logs -f",
+    "kill": "docker-compose -p red-panda -f docker-compose.dev.yml kill",
+    "connect": "docker exec -it red-panda_api_db psql -U red-panda",
     "compile": "gulp compilejs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -39,8 +39,10 @@
   },
   "devDependencies": {
     "@types/bookshelf": "^0.13.3",
+    "@types/expect": "^24.3.0",
     "@types/express": "^4.17.1",
     "@types/knex": "^0.16.1",
+    "@types/mocha": "^5.2.7",
     "@types/passport": "^1.0.1",
     "@types/passport-jwt": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
@@ -62,6 +64,7 @@
     "gulp-typescript": "^5.0.1",
     "mocha": "^6.2.1",
     "prettier-eslint": "^9.0.1",
+    "ts-mocha": "^6.0.0",
     "ts-node": "^8.6.1",
     "typescript": "^3.6.4"
   }

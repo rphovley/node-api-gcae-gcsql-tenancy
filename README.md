@@ -1,4 +1,4 @@
-# Red Ride 3 API
+# Red Panda Events API
 
 ## Prequisites
 All of these were noted from my machine at the time and may not be the lower limits of dependencies' versions
@@ -30,14 +30,21 @@ All of these were noted from my machine at the time and may not be the lower lim
 ## Knex | Objection
 - This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
 
-### Notes
+## Notes
 - The entry point file is at `server/bin/www`, which bootstraps the server and starts listening. 
+- environment variables are located in `server/bin`
 
-### Adding a Route / Controller
+## Directories
+- `knex`: where all the migrations and seeds for the knex db library are
+- `scripts`: contains automations for starting, building, deployment, etc...
+- `server`: the application lives here. `src` inside that directory contains the typescript and `dist` is the directory that typescript gets transpiled to
+- `test`: where any tests will go. Also contains factories that are utilized also by the knex seed files
+
+## Adding a Route / Controller
 - Take a look at `test.route.ts` and `test.controller.ts` for examples.
 - Make sure to export any new routers in `routes/index.ts`
 
-### Docker containers
+## Docker containers
 - This project uses docker-compose to orchestrate the postgres containers (development)
 - In the production environment, the postgres container is replaced by usage of postgres as a service- as it's bad practice to host the database on the same machine as the server (risk of data corruption)
 

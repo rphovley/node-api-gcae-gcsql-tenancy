@@ -52,5 +52,6 @@ function onError(error) {
 function onListening() {
   const address = httpServer.address();
   const port = address.port;
+  console.log('Vroom! Vroom! Get your Teslas!')
   console.log('Listening on port ' + port);
 }

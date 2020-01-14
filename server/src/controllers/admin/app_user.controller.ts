@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { AppUser } from '../models/app_user.model'
+import { AppUser } from '../../models/app_user.model'
 
 export class AppUserController {
   public static async index(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {

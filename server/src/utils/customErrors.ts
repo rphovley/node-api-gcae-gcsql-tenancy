@@ -31,9 +31,34 @@ export namespace CustomErrors {
     }
   }
 
+  export class UserNotFoundUnauthorizedError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Unauthorized', 401)
+    }
+  }
+
   export class PermissionDenied extends BaseError {
     constructor(message?: string) {
       super(message || 'Permission Denied', 403)
     }
   }
+
+  export class UserDoesNotExistError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'User Does Not Exist', 422)
+    }
+  }
+
+  export class TokenExpiredError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'User token expired', 401)
+    }
+  }
+
+  export class DateFormatError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Date formatted incorrectly. Expected ISO string.', 401)
+    }
+  }
+
 }

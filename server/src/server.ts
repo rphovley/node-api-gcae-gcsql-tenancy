@@ -5,11 +5,13 @@ import * as bodyParser from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 import * as routes from './routes'
+import * as adminRoutes from './routes/admin'
 import * as db from './utils/db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
 import { getLogger } from './utils/logger'
+import { guard } from './middleware/guard'
 // Imports the Google Cloud client library
 
 const PORT_FALLBACK = '8080'
@@ -26,6 +28,8 @@ export class Server {
     this.app.set('port', this.port)
     this.initMiddleware()
     this.initRoutes()
+    this.app.use(guard.check(['admin']))// only require admin auth for admin routes (routes initialized after this middleware)
+    this.initAdminRoutes()
     this.initErrorHandling()
     this.httpServer = http.createServer(this.app)
   }
@@ -46,8 +50,6 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
     this.app.use(auth.firebaseAuth())
-    // this.app.use(auth.passport.initialize())
-    // this.app.use(auth.authMiddleware())
   }
 
   /**
@@ -56,6 +58,17 @@ export class Server {
   private initRoutes(): void {
     const router: express.Router = express.Router()
     Object.values(routes).forEach(route => {
+      route.create(router)
+    })
+    this.app.use(router)
+  }
+
+  /**
+   * Add routers to exports in routes/admin/index.ts and they'll be added here automatically
+   */
+  private initAdminRoutes(): void {
+    const router: express.Router = express.Router()
+    Object.values(adminRoutes).forEach(route => {
       route.create(router)
     })
     this.app.use(router)
