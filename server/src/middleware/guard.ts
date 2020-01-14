@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express-serve-static-core'
+import { NextFunction } from 'express'
 import { CustomErrors } from '../utils/customErrors'
 
 class Guard {
@@ -7,9 +7,10 @@ class Guard {
     userRolesProperty: 'roles',
   }
 
-  public check(requiredRoles: string[]): RequestHandler {
+
+  public check(requiredRoles: string[]): (Request, Response, NextFunction) => void {
     if (typeof requiredRoles === 'string') requiredRoles = [requiredRoles]
-    function middleware(req, res, next): void {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const user = req[this.options.requestProperty]
       if (!user) {
         return next(new CustomErrors.PermissionDenied('user object not found, check configuration'))
@@ -24,7 +25,6 @@ class Guard {
       }
       return next() // good to go
     }
-    return middleware.bind(this)
   }
 }
 

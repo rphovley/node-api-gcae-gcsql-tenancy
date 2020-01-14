@@ -8,6 +8,7 @@ import { Route } from '../../test/factories/route.factory'
 import { RouteTimeBlock } from '../../test/factories/route_time_block.factory'
 import { Price } from '../../test/factories/price.factory'
 import { Reservation } from '../../test/factories/reservation.factory'
+import { DriverStatus } from '../../server/src/models/app_user.model'
 
 export async function seed(knex: Knex): Promise<void> {
   // Clean db
@@ -26,6 +27,9 @@ export async function seed(knex: Knex): Promise<void> {
     first_name: 'Elon',
     last_name: 'Musk',
     roles: ['admin'],
+    email: 'paul@350labs.com',
+    phone_number: '8018974355',
+    driver_status: DriverStatus.pending,
     current_license_img: '',
     current_license_exp: '',
     current_insurance_img: '',

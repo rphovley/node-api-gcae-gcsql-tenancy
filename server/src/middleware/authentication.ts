@@ -10,10 +10,11 @@ class Authentication {
   }
   public whiteList: string[] = [
     // Add unprotected endpoints here
-    // '/api/test',
+    '/api/auth/login',
+    '/api/auth/signup',
   ]
 
-  public firebaseAuth() {
+  public firebaseAuth(): (Request, Response, NextFunction) => void {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       if (this.whiteList.find(x => x === req.url)) {
         return next()
