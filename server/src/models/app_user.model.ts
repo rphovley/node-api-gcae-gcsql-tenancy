@@ -43,7 +43,4 @@ export class AppUser extends BaseModel implements IAppUser {
     super.$beforeInsert()
     this.driver_status = DriverStatus.pending
   }
-
-  // TODO: Add email schema validation
-  // TODO: Add phone number schema validation
 }

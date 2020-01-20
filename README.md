@@ -5,8 +5,6 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Node >= 12 (with npm and npx)
 - Docker >= 19.03.1
 - Docker Compose >= 1.24.1
-- AWS CLI
-
 - ESLint. Install dbaeumer.vscode-eslint AND esbenp.prettier-vscode extensions to vscode
 
 ## Quick Start
@@ -41,7 +39,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 - `test`: where any tests will go. Also contains factories that are utilized also by the knex seed files
 
 ## Adding a Route / Controller
-- Take a look at `test.route.ts` and `test.controller.ts` for examples.
+- Take a look at `app_user.route.ts` and `app_user.controller.ts` for examples.
 - Make sure to export any new routers in `routes/index.ts`
 
 ## Docker containers
@@ -52,11 +50,3 @@ All of these were noted from my machine at the time and may not be the lower lim
 - What did Neil Armstrong say when no one laughed at his moon jokes?  
 “I guess you had to be there.”  
 - Testing
-
-
-TODO: Implement Auth/Login
-TODO: Add Logger
-TODO: Add logic for reservation system
-TODO: Add validations for models
-TODO: Make Postman Documentation Examples
-TODO: Basic testing implemented
