@@ -12,6 +12,7 @@ class Authentication {
     // Add unprotected endpoints here
     '/api/auth/login',
     '/api/auth/signup',
+    '/api/tenant',
   ]
 
   public firebaseAuth(): (Request, Response, NextFunction) => void {
@@ -40,7 +41,7 @@ class Authentication {
     } catch (err) {
       if (err instanceof CustomErrors.UserNotFoundUnauthorizedError) {
         throw err
-      } else if (err.code.indexOf('id-token-expired') > -1) {
+      } else if (err.code.indexOf('id-token-expired') > -1) { // if from firebase about the token expiring
         throw new CustomErrors.TokenExpiredError()
       } else if (!err.code) {
         getLogger().error(err) // report error to error service if from firebase

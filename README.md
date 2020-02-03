@@ -10,8 +10,8 @@ All of these were noted from my machine at the time and may not be the lower lim
 ## Quick Start
 - Run `yarn` to install dependencies
 - Run `yarn start-db` to the postgres db container
-- Go to the `knex` directory and run `knex migrate:latest` to run db migrations.
-- From the `knex` directory run `knex seed:run` to run seeds for basic data.
+- Run `yarn migrate` to run migrations and seeds for the dataset.
+- Run `yarn migrate-global`, `yarn seed-global`, `yarn migrate-tenant`, and `yarn seed-tenant` to run migrations or seeds independently
 - Run `yarn start` to start the api. This will also compile typescript into javascript and watch for any changes. 
 
 ## Linting 
@@ -20,22 +20,31 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Logger
 - We are using `@google-cloud/logging-bunyan` for our logging. In order for it to send it to google cloud you'll need to setup google cloud on your machine. visit [google documentation](https://cloud.google.com/logging/docs/setup/nodejs) for details
-  
+    
 ## Testing
 - See [Jokes](#jokes) section
 - The `test` directory contains helper factory functions to create objects. A lowercase `car` returns an object, while uppercase `Car` inserts a `car` object into the database and returns an Objection Model. All factories are patterned after this.
 
 ## Knex | Objection
 - This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
+- To create a migration, go to to the `global` directory or the `multi-tenant` directory (depending on which db you want the migration for), and run the command `knex migrate:make {migration_name}`. This requires that you have installed the knex-cli to your machine
 
 ## Notes
 - The entry point file is at `server/bin/www`, which bootstraps the server and starts listening. 
 - environment variables are located in `server/bin`
 
-## Directories
-- `knex`: where all the migrations and seeds for the knex db library are
-- `scripts`: contains automations for starting, building, deployment, etc...
-- `server`: the application lives here. `src` inside that directory contains the typescript and `dist` is the directory that typescript gets transpiled to
+## Directory Structure
+- `knex`: directory for seeds and migrations for our database
+- `scripts`: various development scripts for the project. Could contain automations for starting, building, deployment, etc...
+- `server`: the application lives here.
+  - `bin`: entry point for the application and environment variables
+  - `dist`: directory the typescript is transpiled into
+  - `src`: typescript directory for the application. Only used in development. This directory is transpiled into the `dist` directory which is used to run the app in production
+    - `controllers`: Houses logic for handling requests from the client
+    - `middleware`: Custom Express middleware for our application
+    - `models`: Objection models to model our database data with
+    - `routes`: Routes for our api
+    - `utils`: Other helpers for running our application
 - `test`: where any tests will go. Also contains factories that are utilized also by the knex seed files
 
 ## Adding a Route / Controller

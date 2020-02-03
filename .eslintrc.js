@@ -42,7 +42,7 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/interface-name-prefix': 0,
-    'import/no-extraneous-dependencies': [2, { devDependencies: ['**/test.tsx', '**/test.ts', 'test/**/*.ts', 'knex/**.ts'] }],
+    'import/no-extraneous-dependencies': [2, { devDependencies: ['**/test.tsx', '**/test.ts', 'test/**/*.ts', 'knex/**/*.ts'] }],
     "import/extensions": [
       "error",
       "ignorePackages",

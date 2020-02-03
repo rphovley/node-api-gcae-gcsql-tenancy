@@ -19,10 +19,10 @@ export class AuthController {
   }
 
   public static async signup(req: Request, res: Response, next: NextFunction): Promise<void> {
-    // receive google data and the related rider information
+    // receive google data and the related attendee information
     const { body } = req
-    if (!body) return next({ status: 422, message: 'Body required to signup rider' })
-    body.roles = ['rider'] as Roles[] // ensure a rider can't set their role
+    if (!body) return next({ status: 422, message: 'Body required to signup attendee' })
+    body.roles = ['attendee'] as Roles[] // ensure a attendee can't set their role
     try {
       const fUser = await admin.auth().verifyIdToken(body.firebase_token) // validate firebase token
       delete body.firebase_token // remove token, don't want to insert it. Only need the firebase uid.
@@ -36,14 +36,13 @@ export class AuthController {
   }
 
   public static async update(req: Request, res: Response, next: NextFunction): Promise<void> {
-    // receive google data and the related rider information
+    // receive google data and the related attendee information
     const { body } = req
-    if (!body) return next({ status: 422, message: 'Body required to update rider profile' })
-    body.roles = ['rider'] as Roles[] // ensure a rider can't set their role
+    if (!body) return next({ status: 422, message: 'Body required to update attendee profile' })
+    body.roles = ['attendee'] as Roles[] // ensure an attendee can't set their role
     try {
       const fUser = await admin.auth().verifyIdToken(body.firebase_token) // validate firebase token
       delete body.firebase_token // remove token, don't want to insert it. Only need the firebase uid.
-      delete body.driver_status // ensure a rider can't update their driver status
       body.firebase_id = fUser.uid
       const loggedInUser = await AppUser.query().findOne({ firebase_id: body.firebase_id })
       if (!loggedInUser) throw new CustomErrors.UserDoesNotExistError('A user with that firebase_token does not exist. Send user to signup.')

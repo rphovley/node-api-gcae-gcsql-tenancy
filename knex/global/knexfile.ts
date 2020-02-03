@@ -1,7 +1,8 @@
 require('ts-node/register')
 
+// This file is not used when running migrations or running seeds. It is only used when creating a migration.
 // eslint-disable-next-line import/first
-import { config } from '../server/src/utils/db_config'
+import { config } from '../../server/src/utils/global_db_config'
 
 module.exports = {
 
@@ -9,9 +10,7 @@ module.exports = {
   {
     ...config,
     migrations: {
-      tableName: 'knex_migrations',
-      extension: 'ts',
-      stub: 'migration.stub.ts',
+      stub: '../migration.stub.ts',
     },
   },
   staging: {

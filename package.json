@@ -7,15 +7,19 @@
     "type": "git",
     "url": "git@gitlab.com:350labs/redpanda/api.git"
   },
-  "author": "350Labs",
-  "license": "UNLICENSED",
   "scripts": {
     "start": "bash scripts/start-api.sh",
     "start-db": "bash scripts/start-db.sh",
     "test": "ts-mocha --paths -p server/src/tsconfig.json test/**/*.test.ts",
     "logs": "docker-compose -p red-panda -f docker-compose.dev.yml logs -f",
     "kill": "docker-compose -p red-panda -f docker-compose.dev.yml kill",
-    "connect": "docker exec -it red-panda_api_db psql -U red-panda",
+    "connect": "docker exec -it red-panda_success_db psql -U red-panda",
+    "connect-global": "docker exec -it red-panda_global_db psql -U red-panda",
+    "migrate": "bash ./knex/migrate_and_seed.sh",
+    "migrate-global": "cd ./knex/global && ts-node migrate.ts",
+    "migrate-tenant": "cd ./knex/multi-tenant && ts-node migrate.ts",
+    "seed-global": "cd ./knex/global && ts-node seeds.ts",
+    "seed-tenant": "cd ./knex/multi-tenant && ts-node seeds.ts",
     "compile": "gulp compilejs",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -39,6 +43,7 @@
   },
   "devDependencies": {
     "@types/bookshelf": "^0.13.3",
+    "@types/bunyan": "^1.8.6",
     "@types/expect": "^24.3.0",
     "@types/express": "^4.17.1",
     "@types/knex": "^0.16.1",

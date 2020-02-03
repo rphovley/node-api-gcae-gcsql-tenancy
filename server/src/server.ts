@@ -6,10 +6,11 @@ import morgan from 'morgan'
 import cors from 'cors'
 import * as routes from './routes'
 import * as adminRoutes from './routes/admin'
-import * as db from './utils/db_config'
+import { initObjection } from './utils/global_db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import auth from './middleware/authentication'
+import { dbConnection } from './middleware/db_connection'
 import { getLogger } from './utils/logger'
 import { guard } from './middleware/guard'
 // Imports the Google Cloud client library
@@ -23,7 +24,7 @@ export class Server {
 
   constructor() {
     this.app = express()
-    db.initConnection()
+    initObjection() // initialize the db connection and objection ORM
     this.port = normalizePort(process.env.SERVER_PORT || PORT_FALLBACK)
     this.app.set('port', this.port)
     this.initMiddleware()
@@ -50,6 +51,8 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
     this.app.use(auth.firebaseAuth())
+    // dbConnection(null, null, null)
+    this.app.use(dbConnection)
   }
 
   /**
