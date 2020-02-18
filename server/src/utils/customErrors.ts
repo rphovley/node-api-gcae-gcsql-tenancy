@@ -1,3 +1,7 @@
+/**
+ * Custom Errors are used when a developer wants the error to be displayed to the end user
+ * All other errors are reported internally
+ */
 interface ErrorBase extends Error {
   readonly name: string
   readonly message: string
@@ -17,7 +21,7 @@ export class BaseError extends Error {
   }
 }
 
-export namespace CustomErrors {
+export namespace AuthErrors {
 
   export class NotFoundError extends BaseError {
     constructor(message: string, model?: string) {
@@ -55,15 +59,17 @@ export namespace CustomErrors {
     }
   }
 
-  export class DateFormatError extends BaseError {
-    constructor(message?: string) {
-      super(message || 'Date formatted incorrectly. Expected ISO string.', 401)
-    }
-  }
-
   export class ClientIdMissing extends BaseError {
     constructor(message?: string) {
       super(message || 'Client id provided is missing or incorrect.', 422)
+    }
+  }
+}
+
+export namespace UtilErrors {
+  export class DateFormatError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Date formatted incorrectly. Expected ISO string.', 401)
     }
   }
 }

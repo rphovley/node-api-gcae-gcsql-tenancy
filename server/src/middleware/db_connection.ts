@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from './express'
 import { knexConfigForTenant } from '../utils/tenant_db_config'
-import { CustomErrors } from '../utils/customErrors'
+import { AuthErrors } from '../utils/customErrors'
 
 import Knex = require('knex')
 
@@ -24,7 +24,7 @@ const getKnexForRequest = async (clientId): Promise<Knex> => {
   let knex = knexCache.get(clientId)
   if (!knex) {
     const knexConfig = await knexConfigForTenant(clientId)
-    if (!knexConfig) throw new CustomErrors.ClientIdMissing()
+    if (!knexConfig) throw new AuthErrors.ClientIdMissing()
     knex = Knex(knexConfig)
     knexCache.set(clientId, knex)
   }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from './express'
-import { CustomErrors } from '../utils/customErrors'
+import { AuthErrors } from '../utils/customErrors'
 import { Roles } from '../models/app_user.model'
 
 type IRoutePermissions = {
@@ -19,7 +19,7 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
   // admins can access all resources
   if (!isAdmin(req.appUser)) {
     const sufficient = routePermissions[req.url].some(role => req.appUser.roles.includes(role))
-    if (!sufficient) { next(new CustomErrors.PermissionDenied()) }
+    if (!sufficient) { next(new AuthErrors.PermissionDenied()) }
   }
   next()
 }

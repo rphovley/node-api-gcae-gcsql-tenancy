@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { Roles, AppUser } from '../models/app_user.model'
-import { CustomErrors } from '../utils/customErrors'
+import { AuthErrors } from '../utils/customErrors'
 
 import admin = require('firebase-admin')
 
@@ -10,7 +10,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
   try {
     const fUser = await admin.auth().verifyIdToken(body.firebase_token) // validate firebase token
     const loggedInUser = await AppUser.query().findOne({ firebase_id: fUser.uid })
-    if (!loggedInUser) throw new CustomErrors.UserDoesNotExistError('A user with that firebase_token does not exist. Send user to signup.')
+    if (!loggedInUser) throw new AuthErrors.UserDoesNotExistError('A user with that firebase_token does not exist. Send user to signup.')
     res.send({ message: 'success', data: loggedInUser })
   } catch (err) {
     return next(err)
@@ -44,7 +44,7 @@ export async function update(req: Request, res: Response, next: NextFunction): P
     delete body.firebase_token // remove token, don't want to insert it. Only need the firebase uid.
     body.firebase_id = fUser.uid
     const loggedInUser = await AppUser.query().findOne({ firebase_id: body.firebase_id })
-    if (!loggedInUser) throw new CustomErrors.UserDoesNotExistError('A user with that firebase_token does not exist. Send user to signup.')
+    if (!loggedInUser) throw new AuthErrors.UserDoesNotExistError('A user with that firebase_token does not exist. Send user to signup.')
     const appUser = await AppUser.query().patchAndFetchById(loggedInUser.id, body)
     res.send({ message: 'success', data: appUser })
   } catch (err) {

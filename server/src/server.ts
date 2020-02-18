@@ -49,7 +49,7 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
     this.app.use(dbConnection)
-    this.app.use(authentication.firebaseAuth)
+    this.app.use(authentication.firebaseAuth())
     this.app.use(authorization)
   }
 
@@ -79,7 +79,7 @@ export class Server {
     this.app.use((err, req, res, next) => {
       if (err == null) err = {}
       console.log('\x1b[31m', err)
-      if (err instanceof BaseError) {
+      if (err instanceof BaseError) { // Errors designed by developers to go to the end user are of type BaseError
         res.status(err.status).json({ message: err.message, err })
       } else {
         getLogger().error(err) // only send log to google if is not an expected error
