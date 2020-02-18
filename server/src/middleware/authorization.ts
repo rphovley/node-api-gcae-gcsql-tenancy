@@ -6,6 +6,7 @@ type IRoutePermissions = {
   [key: string]: Roles[]
 }
 
+// TODO: make this configurable per request method (i.e. GET, POST, PUT, etc...)
 const routePermissions: IRoutePermissions = {
   '/admin/app_users': ['speaker'],
 }

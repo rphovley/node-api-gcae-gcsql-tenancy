@@ -4,6 +4,8 @@ import { initializeFirebase, admin } from '../utils/firebase_config'
 import { getLogger } from '../utils/logger'
 import { AppUser } from '../models/app_user.model'
 
+import Knex = require('knex')
+
 class Authentication {
   constructor() {
     initializeFirebase()
@@ -23,7 +25,7 @@ class Authentication {
       try {
         if (!req.headers.authorization) throw new AuthErrors.UnauthorizedError('No Authorization token sent.')
         if (!req.headers.clientid) throw new AuthErrors.UnauthorizedError('No Client id sent.')
-        req.appUser = await Authentication.getUser(req)
+        req.appUser = await Authentication.getUser(req.headers.authorization, req.knex)
       } catch (err) {
         if (err instanceof BaseError) next(err)
         else next(new AuthErrors.UnauthorizedError())
@@ -32,20 +34,19 @@ class Authentication {
     }
   }
 
-  private static async getUser(req: Request): Promise<AppUser> {
-    const token = req.headers.authorization
-    const { knex } = req
+  private static async getUser(token: string, knex: Knex): Promise<AppUser> {
     let appUser
     try {
-      const fUser = await admin.auth().verifyIdToken(token)
-      appUser = await AppUser.query(knex).findOne({ firebase_uid: fUser.uid })
+      const fUser = await admin.auth().verifyIdToken(token) // verify firebase id token is valid
+      appUser = await AppUser.query(knex).findOne({ firebase_uid: fUser.uid }) // find user with firebase uid in system
       if (!appUser) throw new AuthErrors.UserNotFoundUnauthorizedError('No User found for that firebase_id. Send user to registration')
     } catch (err) {
+      // TODO: fix this garbase conditional. The universe is crying out in pain
       if (err instanceof AuthErrors.UserNotFoundUnauthorizedError) { // user with that id not found
         throw err
       } else if (err.code.indexOf('id-token-expired') > -1) { // if from firebase about the token expiring
         throw new AuthErrors.TokenExpiredError()
-      } else if (!err.code) {
+      } else if (!err.code) { // unexpeccted error, log to google logging
         getLogger().error(err) // report error to error service if from firebase
       }
       throw new AuthErrors.UnauthorizedError()
