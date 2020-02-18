@@ -15,6 +15,7 @@
     "kill": "docker-compose -p red-panda -f docker-compose.dev.yml kill",
     "connect": "docker exec -it red-panda_success_db psql -U red-panda",
     "connect-global": "docker exec -it red-panda_global_db psql -U red-panda",
+    "generate-token": "ts-node --project ./server/src/tsconfig.json ./scripts/generate_user_token.ts",
     "migrate": "bash ./knex/migrate_and_seed.sh",
     "migrate-global": "cd ./knex/global && ts-node migrate.ts",
     "migrate-tenant": "cd ./knex/multi-tenant && ts-node migrate.ts",
@@ -69,6 +70,8 @@
     "gulp-typescript": "^5.0.1",
     "mocha": "^6.2.1",
     "prettier-eslint": "^9.0.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.6.1",
     "typescript": "^3.6.4"

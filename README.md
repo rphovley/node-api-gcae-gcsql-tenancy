@@ -18,15 +18,15 @@ All of these were noted from my machine at the time and may not be the lower lim
 - Uses the .eslintrc.js file at the root of the project to configure different rules for the project. 
 - Install dbaeumer.vscode-eslint AND esbenp.prettier-vscode extensions to vscode
 
-## Logger
+## Logger 
 - We are using `@google-cloud/logging-bunyan` for our logging. In order for it to send it to google cloud you'll need to setup google cloud on your machine. visit [google documentation](https://cloud.google.com/logging/docs/setup/nodejs) for details
-    
+
 ## Testing
 - See [Jokes](#jokes) section
 - The `test` directory contains helper factory functions to create objects. A lowercase `car` returns an object, while uppercase `Car` inserts a `car` object into the database and returns an Objection Model. All factories are patterned after this.
 
 ## Knex | Objection
-- This project makes use of Knex and Objection for it's relation db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
+- This project makes use of Knex and Objection for its relational db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
 - To create a migration, go to to the `global` directory or the `multi-tenant` directory (depending on which db you want the migration for), and run the command `knex migrate:make {migration_name}`. This requires that you have installed the knex-cli to your machine
 
 ## Notes
@@ -49,7 +49,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Adding a Route / Controller
 - Take a look at `app_user.route.ts` and `app_user.controller.ts` for examples.
-- Make sure to export any new routers in `routes/index.ts`
+- Make sure to export any new routes in `routes/index.ts`
 
 ## Docker containers
 - This project uses docker-compose to orchestrate the postgres containers (development)
@@ -59,3 +59,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 - What did Neil Armstrong say when no one laughed at his moon jokes?  
 “I guess you had to be there.”  
 - Testing
+
+
+
+<!-- TODO: add Lead, EventUser models to Multi-tenant, and then TenantUsers to Global db -->

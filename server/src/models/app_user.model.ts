@@ -16,15 +16,3 @@ export class AppUser extends BaseModel implements IAppUser {
 
   static companyId = 1
 }
-
-/**
- * User 1:
- *  first_name: poop
- *  last_name: plop
- *  companyId: 1
- *
- * User 2:
- *  first_name: jo
- *  last_name: not plop
- *  companyId: 1
- */

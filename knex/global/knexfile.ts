@@ -10,6 +10,7 @@ module.exports = {
   {
     ...config,
     migrations: {
+      extension: 'ts',
       stub: '../migration.stub.ts',
     },
   },
