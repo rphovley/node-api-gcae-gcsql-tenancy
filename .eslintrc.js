@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['airbnb', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'engage-api'],
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
@@ -10,16 +10,8 @@ module.exports = {
       typescript: {},
     },
   },
-  //   rules: {
-  //   '@typescript-eslint/no-unused-vars': [
-  //     'warn', { args: 'none' } // allows function params/arguments to not be used (e.g. Express middleware)
-  //   ],
-  //   '@typescript-eslint/ban-types': 0,
-  //   '@typescript-eslint/no-namespace': 0,
-  //   '@typescript-eslint/semi': 0,
-  //   '@typescript-eslint/no-use-before-define': ['error', { 'functions': false, 'classes': false }]
-  // }
   rules: {
+    'engage-api/no-query-without-knex': 2,
     'semi': [2, "never"],
     'eqeqeq': 0,
     'lines-between-class-members': 0,
@@ -52,10 +44,25 @@ module.exports = {
         "ts": "never",
         "tsx": "never"
       }
-   ],
-   "import/prefer-default-export": 0
-  },
-};
+    ],
+    "import/prefer-default-export": 0,
+    'engage-api/no-query-without-knex':1
+  }
+}
+// module.exports = {
+//   },
+//   //   rules: {
+//   //   '@typescript-eslint/no-unused-vars': [
+//   //     'warn', { args: 'none' } // allows function params/arguments to not be used (e.g. Express middleware)
+//   //   ],
+//   //   '@typescript-eslint/ban-types': 0,
+//   //   '@typescript-eslint/no-namespace': 0,
+//   //   '@typescript-eslint/semi': 0,
+//   rules: {
+//   },
+//   //   '@typescript-eslint/no-use-before-define': ['error', { 'functions': false, 'classes': false }]
+//   // }
+// };
 
 /**
  * LINK TO RECOMMENDED RULES IN EFFECT
