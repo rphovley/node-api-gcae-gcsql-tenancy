@@ -1,11 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express'
-import { BaseRoute } from './base.route'
-import { TenantController } from '../controllers/tenant.controller'
+import { Router } from 'express'
+import { index } from '../controllers/tenant.controller'
 
-export class TenantRoute extends BaseRoute {
+export class TenantRoute {
   public static create(router: Router): void {
-    router.get('/api/tenant', async (req: Request, res: Response, next: NextFunction) => {
-      TenantController.index(req, res, next)
-    })
+    router.get('/api/tenant', index)
   }
 }

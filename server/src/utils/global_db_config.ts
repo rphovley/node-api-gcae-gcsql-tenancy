@@ -23,7 +23,7 @@ export const config: Knex.Config = {
   },
 }
 
-export const initObjection = (): Knex => {
+export const initGlobalObjection = (): Knex => {
   const knex: Knex = initConnection()
   Model.knex(knex)
   return knex

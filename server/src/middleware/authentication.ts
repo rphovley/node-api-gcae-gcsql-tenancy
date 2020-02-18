@@ -15,21 +15,19 @@ class Authentication {
     '/api/tenant',
   ]
 
-  public firebaseAuth(): (Request, Response, NextFunction) => void {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      if (this.whiteList.find(x => x === req.url)) {
-        return next()
-      }
-      try {
-        if (!req.headers.authorization) throw new CustomErrors.UnauthorizedError('No Authorization token sent.')
-        if (!req.headers.clientid) throw new CustomErrors.UnauthorizedError('No Client id sent.')
-        req.appUser = await Authentication.getUser(req)
-      } catch (err) {
-        if (err instanceof BaseError) next(err)
-        else next(new CustomErrors.UnauthorizedError())
-      }
+  public async firebaseAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
+    if (this.whiteList.find(x => x === req.url)) {
       return next()
     }
+    try {
+      if (!req.headers.authorization) throw new CustomErrors.UnauthorizedError('No Authorization token sent.')
+      if (!req.headers.clientid) throw new CustomErrors.UnauthorizedError('No Client id sent.')
+      req.appUser = await Authentication.getUser(req)
+    } catch (err) {
+      if (err instanceof BaseError) next(err)
+      else next(new CustomErrors.UnauthorizedError())
+    }
+    return next()
   }
 
   private static async getUser(req: Request): Promise<AppUser> {

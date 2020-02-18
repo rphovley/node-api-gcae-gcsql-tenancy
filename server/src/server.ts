@@ -6,15 +6,13 @@ import morgan from 'morgan'
 import cors from 'cors'
 import * as routes from './routes'
 import * as adminRoutes from './routes/admin'
-import { initObjection } from './utils/global_db_config'
+import { initGlobalObjection } from './utils/global_db_config'
 import { BaseError } from './utils/customErrors'
 import normalizePort from './utils/normalizePort'
 import authentication from './middleware/authentication'
 import { authorization } from './middleware/authorization'
 import { dbConnection } from './middleware/db_connection'
-import { getLogger } from './utils/logger'
-import { guard } from './middleware/guard'
-// Imports the Google Cloud client library
+import { getLogger } from './utils/logger' // uses google cloud logging
 
 const PORT_FALLBACK = '8080'
 
@@ -25,12 +23,11 @@ export class Server {
 
   constructor() {
     this.app = express()
-    initObjection() // initialize the db connection and objection ORM
+    initGlobalObjection() // initialize the db connection and objection ORM to global db
     this.port = normalizePort(process.env.SERVER_PORT || PORT_FALLBACK)
     this.app.set('port', this.port)
     this.initMiddleware()
     this.initRoutes()
-    // this.app.use(guard.check(['admin']))// only require admin auth for admin routes (routes initialized after this middleware)
     this.initAdminRoutes()
     this.initErrorHandling()
     this.httpServer = http.createServer(this.app)
@@ -52,9 +49,8 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
     this.app.use(dbConnection)
-    this.app.use(authentication.firebaseAuth())
+    this.app.use(authentication.firebaseAuth)
     this.app.use(authorization)
-    // dbConnection(null, null, null)
   }
 
   /**
