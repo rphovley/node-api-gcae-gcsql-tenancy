@@ -7,7 +7,9 @@ import rp = require('request-promise')
 import Knex = require('knex')
 
 initializeFirebase()
-const getFirebaseToken = async (): Promise<void> => {
+getFirebaseToken()
+
+async function getFirebaseToken(): Promise<void> {
   const configs = getArrConfigs(await getConfigs())
   const { id, config } = configs[0] // use the first tenant db by default
   const knexInstance = Knex(config)
@@ -27,7 +29,7 @@ const getFirebaseToken = async (): Promise<void> => {
       console.log('Error creating custom token:', error)
     })
 }
-getFirebaseToken()
+
 
 // 'customToken' comes from FirebaseAdmin.auth().createCustomToken(uid)
 function getIdTokenFromCustomToken(customToken): Promise<string> {
