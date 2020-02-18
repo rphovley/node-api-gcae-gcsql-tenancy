@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from './express'
-import * as models from '../models'
 import { knexConfigForTenant } from '../utils/tenant_db_config'
 import { CustomErrors } from '../utils/customErrors'
 
@@ -8,17 +7,11 @@ import Knex = require('knex')
 const knexCache = new Map()
 
 export const dbConnection = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  // Function that parses the tenant id from path, header, query parameter etc.
-  // and returns an instance of knex. You should cache the knex instances and
-  // not create a new one for each query. Knex takes care of connection pooling.
   if (req.headers.clientid) {
     try {
+      // gets the correct knex instance for the clientId passed
       const knex = await getKnexForRequest(req.headers.clientid)
-      Object.keys(models).forEach((key) => {
-        models[key] = models[key].bindKnex(knex)
-      })
-      // eslint-disable-next-line dot-notation
-      req.models = models
+      req.knex = knex
     } catch (err) {
       next(err)
     }

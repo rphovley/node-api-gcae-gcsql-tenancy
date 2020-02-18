@@ -18,6 +18,7 @@ const getFirebaseToken = async (): Promise<void> => {
   admin.auth().createCustomToken(user.firebase_uid)
     .then((customToken) => {
       // Send token back to client
+
       return getIdTokenFromCustomToken(customToken)
     }).then((idToken) => {
       console.log(idToken)

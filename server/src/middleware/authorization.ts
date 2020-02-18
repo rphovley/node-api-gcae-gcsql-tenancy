@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from './express'
-import { CustomErrors, BaseError } from '../utils/customErrors'
-import { initializeFirebase, admin } from '../utils/firebase_config'
-import { Roles, IAppUser } from '../models/app_user.model'
-import { getLogger } from '../utils/logger'
+import { CustomErrors } from '../utils/customErrors'
+import { Roles } from '../models/app_user.model'
 
 type IRoutePermissions = {
   [key: string]: Roles[]
@@ -18,7 +16,6 @@ function isAdmin(user): boolean {
 
 // Validate that the user has the correct role/permissions for the requested resource
 export const authorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  console.log(req.url)
   // admins can access all resources
   if (!isAdmin(req.appUser)) {
     const sufficient = routePermissions[req.url].some(role => req.appUser.roles.includes(role))
