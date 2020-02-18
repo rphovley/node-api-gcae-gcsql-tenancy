@@ -51,10 +51,10 @@ export class Server {
     this.app.use(morgan('dev'))
     this.app.use(cors())
     this.app.use(express.static(path.join(__dirname, 'public')))
+    this.app.use(dbConnection)
     this.app.use(authentication.firebaseAuth())
     this.app.use(authorization)
     // dbConnection(null, null, null)
-    this.app.use(dbConnection)
   }
 
   /**

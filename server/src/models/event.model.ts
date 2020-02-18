@@ -17,7 +17,6 @@ export interface IEvent {
   location_map: string
 }
 
-
 export class Event extends BaseModel implements IEvent {
   name: string
   event_type: string

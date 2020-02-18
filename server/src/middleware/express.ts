@@ -4,6 +4,7 @@ import { AppUser } from '../models/app_user.model'
 export interface Request extends BaseRequest
 {
   appUser: AppUser;
+  models: {};
 }
 
 export type Response = BaseResponse

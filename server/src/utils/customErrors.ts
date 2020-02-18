@@ -61,4 +61,9 @@ export namespace CustomErrors {
     }
   }
 
+  export class ClientIdMissing extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Client id provided is missing or incorrect.', 422)
+    }
+  }
 }

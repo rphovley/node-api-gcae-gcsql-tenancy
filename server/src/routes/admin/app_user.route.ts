@@ -1,4 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Router } from 'express'
+import { Request, Response, NextFunction } from '../../middleware/express'
 import { BaseRoute } from '../base.route'
 import { AppUserController } from '../../controllers/admin/app_user.controller'
 

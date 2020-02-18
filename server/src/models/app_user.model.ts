@@ -13,6 +13,4 @@ export class AppUser extends BaseModel implements IAppUser {
   roles: Roles[]
   firebase_uid: string
   static tableName = 'app_user'
-
-  static companyId = 1
 }

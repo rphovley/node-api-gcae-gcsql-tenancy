@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from './express'
 import { CustomErrors, BaseError } from '../utils/customErrors'
 import { initializeFirebase, admin } from '../utils/firebase_config'
-import { AppUser } from '../models/app_user.model'
 import { getLogger } from '../utils/logger'
+import { AppUser } from '../models'
 
 class Authentication {
   constructor() {
@@ -22,9 +22,9 @@ class Authentication {
       }
       try {
         if (!req.headers.authorization) throw new CustomErrors.UnauthorizedError('No Authorization token sent.')
-        if (!req.headers.clientId) throw new CustomErrors.UnauthorizedError('No Client id sent.')
+        if (!req.headers.clientid) throw new CustomErrors.UnauthorizedError('No Client id sent.')
         // eslint-disable-next-line dot-notation
-        req.appUser = await Authentication.getUser(req.headers.authorization, req.headers['clientId'])
+        req.appUser = await Authentication.getUser(req)
       } catch (err) {
         if (err instanceof BaseError) next(err)
         else next(new CustomErrors.UnauthorizedError())
@@ -33,11 +33,14 @@ class Authentication {
     }
   }
 
-  private static async getUser(token, clientId): Promise<AppUser> {
+  private static async getUser(req: Request): Promise<AppUser> {
+    const token = req.headers.authorization
+    const { models } = req
     let appUser
     try {
       const fUser = await admin.auth().verifyIdToken(token)
-      appUser = await AppUser.query().findOne({ firebase_id: fUser.uid })
+      // eslint-disable-next-line dot-notation
+      appUser = await models['AppUser'].query().findOne({ firebase_uid: fUser.uid })
       if (!appUser) throw new CustomErrors.UserNotFoundUnauthorizedError('No User found for that firebase_id. Send user to registration')
     } catch (err) {
       if (err instanceof CustomErrors.UserNotFoundUnauthorizedError) { // user with that id not found

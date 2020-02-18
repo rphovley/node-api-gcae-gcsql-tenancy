@@ -1,16 +1,20 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import { initializeFirebase, admin } from '../server/src/utils/firebase_config'
 import { getConfigs } from '../server/src/utils/tenant_db_config'
 
+import rp = require('request-promise')
 import Knex = require('knex')
 
 initializeFirebase()
 const getFirebaseToken = async (): Promise<void> => {
-  const dbConfig = (await getConfigs()).entries().next().value[1] // use the first tenant db by default
-  const knexInstance = Knex(dbConfig)
+  const configs = getArrConfigs(await getConfigs())
+  const { id, config } = configs[0] // use the first tenant db by default
+  const knexInstance = Knex(config)
   const user = (await knexInstance.select('firebase_uid').from('app_user'))[0] // use the first user by default
   await knexInstance.destroy()
   console.log(`Generating token for user with uid: ${user.firebase_uid}`)
+  console.log(`clientId: ${id}`)
   admin.auth().createCustomToken(user.firebase_uid)
     .then((customToken) => {
       // Send token back to client
@@ -24,10 +28,8 @@ const getFirebaseToken = async (): Promise<void> => {
 }
 getFirebaseToken()
 
-import rp = require('request-promise')
-
 // 'customToken' comes from FirebaseAdmin.auth().createCustomToken(uid)
-function getIdTokenFromCustomToken(customToken) {
+function getIdTokenFromCustomToken(customToken): Promise<string> {
   const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken?key=${process.env.web_api_key}`
   const data = {
     token: customToken,
@@ -44,4 +46,12 @@ function getIdTokenFromCustomToken(customToken) {
   return rp(options)
   // idToken is the firebase id token that can be used with verifyIdToken
     .then(parsedBody => parsedBody.idToken)
+}
+
+function getArrConfigs(configs: Map<string, Knex.Config>): {id: string, config: Knex.Config}[] {
+  const arr = []
+  configs.forEach((config, key) => {
+    arr.push({ id: key, config })
+  })
+  return arr
 }
