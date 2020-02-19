@@ -27,6 +27,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Knex | Objection
 - This project makes use of Knex and Objection for its relational db needs. Objection is built on top of Knex. We utilize Knex for migrations and db connections and then Objection for Object modeling.
+- Uses [JSONSchema](http://json-schema.org/) for validation
 - To create a migration, go to to the `global` directory or the `multi-tenant` directory (depending on which db you want the migration for), and run the command `knex migrate:make {migration_name}`. This requires that you have installed the knex-cli to your machine
 
 ## Notes

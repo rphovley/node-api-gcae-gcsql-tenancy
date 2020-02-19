@@ -4,10 +4,11 @@ import { IAppUser, AppUser as AppUserModel, Roles } from '../../server/src/model
 
 import faker = require('faker')
 
-export const appUser = (user?): IAppUser => {
+export const appUser = (user?: Partial<IAppUser>): Partial<IAppUser> => {
   return {
     firebase_uid: faker.random.uuid(),
     roles: ['attendee'] as Roles[],
+    email: faker.internet.email(),
     created_at: (new Date()).toISOString(),
     updated_at: (new Date()).toISOString(),
     ...user,

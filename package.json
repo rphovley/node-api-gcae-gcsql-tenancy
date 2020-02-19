@@ -16,6 +16,7 @@
     "connect": "docker exec -it red-panda_success_db psql -U red-panda",
     "connect-global": "docker exec -it red-panda_global_db psql -U red-panda",
     "generate-token": "ts-node --project ./server/src/tsconfig.json ./scripts/generate_user_token.ts",
+    "generate-token-new": "ts-node --project ./server/src/tsconfig.json ./scripts/generate_token_new_user.ts",
     "migrate": "bash ./knex/migrate_and_seed.sh",
     "migrate-global": "cd ./knex/global && ts-node migrate.ts",
     "migrate-tenant": "cd ./knex/multi-tenant && ts-node migrate.ts",

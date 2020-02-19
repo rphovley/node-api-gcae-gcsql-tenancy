@@ -3,6 +3,7 @@
 import { initializeFirebase, admin } from '../server/src/utils/firebase_config'
 import { getConfigs } from '../server/src/utils/tenant_db_config'
 
+import faker = require('faker')
 import rp = require('request-promise')
 import Knex = require('knex')
 
@@ -13,11 +14,11 @@ async function getFirebaseToken(): Promise<void> {
   const configs = getArrConfigs(await getConfigs())
   const { id, config } = configs[0] // use the first tenant db by default
   const knexInstance = Knex(config)
-  const user = (await knexInstance.select('firebase_uid').from('app_user'))[1] // use the second user(attendee) by default (1st user is an admin)
+  const uid = faker.random.uuid()
   await knexInstance.destroy()
-  console.log(`Generating token for user with uid: ${user.firebase_uid}`)
+  console.log(`Generating token for user with uid: ${uid}`)
   console.log(`tenantId: ${id}`)
-  admin.auth().createCustomToken(user.firebase_uid)
+  admin.auth().createCustomToken(uid)
     .then((customToken) => {
       // Send token back to client
 

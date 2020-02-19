@@ -20,7 +20,8 @@ export const setConnConfigs = async (): Promise<void> => {
   }
 }
 
-export const knexConfigForTenant = async (tenantId): Promise<Knex.Config> => {
+export const getConfigForTenant = async (tenantId): Promise<Knex.Config> => {
+  tenantId = Number(tenantId)
   if (tenantConnConfigs.size <= 0) await setConnConfigs()
   return tenantConnConfigs.get(tenantId)
 }

@@ -6,25 +6,27 @@ import { AppUser } from '../models/app_user.model'
 
 import Knex = require('knex')
 
+export const whiteList: string[] = [
+  // Add unprotected endpoints here
+  '/api/engage/tenant',
+  '/api/engage/auth/signup',
+]
+
 class Authentication {
   constructor() {
     initializeFirebase()
   }
-  public whiteList: string[] = [
-    // Add unprotected endpoints here
-    '/api/auth/login',
-    '/api/auth/signup',
-    '/api/tenant',
-  ]
 
+
+  // eslint-disable-next-line class-methods-use-this
   public firebaseAuth(): (Request, Response, NextFunction) => void {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      if (this.whiteList.find(x => x === req.url)) {
+      if (whiteList.find(x => x === req.url)) {
         return next()
       }
       try {
         if (!req.headers.authorization) throw new AuthErrors.UnauthorizedError('No Authorization token sent.')
-        if (!req.headers.clientid) throw new AuthErrors.UnauthorizedError('No Client id sent.')
+        if (!req.headers.tenantid) throw new AuthErrors.UnauthorizedError('No Client id sent.')
         req.appUser = await Authentication.getUser(req.headers.authorization, req.knex)
       } catch (err) {
         if (err instanceof BaseError) next(err)

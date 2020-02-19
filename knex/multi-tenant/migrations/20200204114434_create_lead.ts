@@ -6,17 +6,12 @@ export async function up(knex: Knex): Promise<void> {
       table.increments('id')
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
-      table.string('first_name').notNullable()
-      table.string('last_name').notNullable()
-      table.string('email').unique().notNullable()
-      table.string('phone_number').unique().notNullable()
-      table.boolean('opt_out').notNullable()
-      //       +first_name: string
-      // +last_name: string
-      // +email: string
-      // +number: string
-      // +opt_out: boolean
-      table.integer('login_id').unsigned().notNullable().references('id')
+      table.string('first_name')
+      table.string('last_name')
+      table.string('email').unique()
+      table.string('phone_number').unique()
+      table.boolean('opt_out')
+      table.integer('login_id').unsigned().references('id')
         .inTable('app_user')
         .index()
     })

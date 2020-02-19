@@ -7,6 +7,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
       table.specificType('roles', 'character varying[]').notNullable()
+      table.string('email').notNullable().unique()
       table.string('firebase_uid').notNullable().unique()
     })
 }

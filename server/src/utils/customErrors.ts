@@ -22,10 +22,15 @@ export class BaseError extends Error {
 }
 
 export namespace AuthErrors {
-
   export class NotFoundError extends BaseError {
     constructor(message: string, model?: string) {
       super(message || `${model} does not exist`, 404)
+    }
+  }
+
+  export class FirebaseError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Token is missing or invalid.', 400)
     }
   }
 
@@ -59,9 +64,9 @@ export namespace AuthErrors {
     }
   }
 
-  export class ClientIdMissing extends BaseError {
+  export class TenantIdMissing extends BaseError {
     constructor(message?: string) {
-      super(message || 'Client id provided is missing or incorrect.', 422)
+      super(message || 'Tenant id provided is missing or incorrect.', 422)
     }
   }
 }
@@ -70,6 +75,19 @@ export namespace UtilErrors {
   export class DateFormatError extends BaseError {
     constructor(message?: string) {
       super(message || 'Date formatted incorrectly. Expected ISO string.', 401)
+    }
+  }
+}
+
+export namespace ValidationErrors {
+  export class MissingBodyError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Body missing from request', 422)
+    }
+  }
+  export class MissingFieldError extends BaseError {
+    constructor(message?: string) {
+      super(message || 'Body required missing field', 422)
     }
   }
 }

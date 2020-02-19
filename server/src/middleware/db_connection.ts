@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from './express'
-import { knexConfigForTenant } from '../utils/tenant_db_config'
+import { getConfigForTenant } from '../utils/tenant_db_config'
 import { AuthErrors } from '../utils/customErrors'
 
 import Knex = require('knex')
@@ -7,10 +7,10 @@ import Knex = require('knex')
 const knexCache = new Map()
 
 export const dbConnection = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  if (req.headers.clientid) {
+  if (req.headers.tenantid) {
     try {
-      // gets the correct knex instance for the clientId passed
-      const knex = await getKnexForRequest(req.headers.clientid)
+      // gets the correct knex instance for the tenantId passed
+      const knex = await getKnexForRequest(req.headers.tenantid)
       req.knex = knex
     } catch (err) {
       next(err)
@@ -19,14 +19,13 @@ export const dbConnection = async (req: Request, res: Response, next: NextFuncti
   next()
 }
 
-const getKnexForRequest = async (clientId): Promise<Knex> => {
-  clientId = Number(clientId)
-  let knex = knexCache.get(clientId)
+const getKnexForRequest = async (tenantId): Promise<Knex> => {
+  let knex = knexCache.get(tenantId)
   if (!knex) {
-    const knexConfig = await knexConfigForTenant(clientId)
-    if (!knexConfig) throw new AuthErrors.ClientIdMissing()
+    const knexConfig = await getConfigForTenant(tenantId)
+    if (!knexConfig) throw new AuthErrors.TenantIdMissing()
     knex = Knex(knexConfig)
-    knexCache.set(clientId, knex)
+    knexCache.set(tenantId, knex)
   }
 
   return knex

@@ -16,6 +16,16 @@ module.exports.rules = {
                 ]
               },
             })
+          } else if (object && functionName === 'relatedQuery' && node.arguments.length < 2) {
+            context.report({
+              node,
+              message: 'Objection model function `relatedQuery` must be passed a knex or transaction object',
+              fix(fixer) {
+                return [
+                  fixer.replaceTextRange([node.end - 2, node.end], 'knex)'),
+                ]
+              },
+            })
           }
         }
       },

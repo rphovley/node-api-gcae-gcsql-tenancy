@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   rules: {
-    'engage-api/no-query-without-knex': 2,
+    'engage-api/no-query-without-knex': 1,
     'semi': [2, "never"],
     'eqeqeq': 0,
     'lines-between-class-members': 0,
