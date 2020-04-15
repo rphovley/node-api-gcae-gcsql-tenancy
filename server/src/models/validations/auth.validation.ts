@@ -8,6 +8,6 @@ export class AuthValidation extends BaseValidation {
     const { body, headers } = req as {body: ISignupUser, headers}
     super.validate(body)
     if (!headers.tenantid) throw new AuthErrors.TenantIdMissing()
-    if (!body.lead) throw new ValidationErrors.MissingFieldError('Body missing lead object')
+    if (!body.email) throw new ValidationErrors.MissingFieldError('Body missing email field')
   }
 }

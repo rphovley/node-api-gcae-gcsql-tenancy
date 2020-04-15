@@ -1,90 +1,58 @@
-import * as http from 'http'
-import * as path from 'path'
-import express from 'express'
-import * as bodyParser from 'body-parser'
-import morgan from 'morgan'
-import cors from 'cors'
-import * as routes from './routes/engage'
-import * as adminRoutes from './routes/admin'
-import { initGlobalObjection } from './utils/global_db_config'
-import { BaseError } from './utils/customErrors'
-import normalizePort from './utils/normalizePort'
-import authentication from './middleware/authentication'
-import { authorization } from './middleware/authorization'
-import { dbConnection } from './middleware/db_connection'
-import { getLogger } from './utils/logger' // uses google cloud logging
+/* eslint-disable no-console */
 
-const PORT_FALLBACK = '8080'
+// module dependencies
 
-export class Server {
-  public app: express.Application
-  public port: string | number | boolean
-  public httpServer: http.Server
+import './utils/env'
 
-  constructor() {
-    this.app = express()
-    initGlobalObjection() // initialize the db connection and objection ORM to global db
-    this.port = normalizePort(process.env.SERVER_PORT || PORT_FALLBACK)
-    this.app.set('port', this.port)
-    this.initMiddleware()
-    this.initRoutes()
-    this.initAdminRoutes()
-    this.initErrorHandling()
-    this.httpServer = http.createServer(this.app)
+
+// eslint-disable-next-line import/first
+import { Express } from './express'
+
+
+// create http server
+
+const expressServer = Express.bootstrap()
+const { httpServer } = expressServer
+
+// listen on provided ports
+httpServer.listen(expressServer.port)
+
+// add error handler
+httpServer.on('error', onError)
+
+// start listening on port
+httpServer.on('listening', onListening)
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function onError(error) {
+  let bind = 'Port or pipe'
+  if (error.syscall !== 'listen') throw error
+  const addr = httpServer.address()
+  if (addr) bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`)
+      process.exit(1)
+      break
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`)
+      process.exit(1)
+      break
+    default:
+      throw error
   }
+}
 
-  /**
-   * Fire up the bass cannon
-   */
-  public static bootstrap(): Server {
-    return new Server()
-  }
-
-  /**
-   * Stack middleware
-   */
-  private initMiddleware(): void {
-    this.app.use(bodyParser.json())
-    this.app.use(morgan('dev'))
-    this.app.use(cors())
-    this.app.use(express.static(path.join(__dirname, 'public')))
-    this.app.use(dbConnection)
-    this.app.use(authentication.firebaseAuth())
-    this.app.use(authorization)
-  }
-
-  /**
-   * Add routers to exports in routes/index.ts and they'll be added here automatically
-   */
-  private initRoutes(): void {
-    const router: express.Router = express.Router()
-    Object.values(routes).forEach(route => {
-      route.create(router)
-    })
-    this.app.use(router)
-  }
-
-  /**
-   * Add routers to exports in routes/admin/index.ts and they'll be added here automatically
-   */
-  private initAdminRoutes(): void {
-    const router: express.Router = express.Router()
-    Object.values(adminRoutes).forEach(route => {
-      route.create(router)
-    })
-    this.app.use(router)
-  }
-
-  private initErrorHandling(): void {
-    this.app.use((err, req, res, next) => {
-      if (err == null) err = {}
-      console.log('\x1b[31m', err)
-      if (err instanceof BaseError) { // Errors designed by developers to go to the end user are of type BaseError
-        res.status(err.status).json({ message: err.message, err })
-      } else {
-        getLogger().error(err) // only send log to google if is not an expected error
-        res.status(err.status || err.statusCode || 500).json({ message: err.message || 'Internal Server Error', err })
-      }
-    })
-  }
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening(): void {
+  const address = httpServer.address()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { port } = address as any
+  console.log(`Magic Happens on port ${port}`)
 }

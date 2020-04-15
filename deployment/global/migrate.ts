@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import { initConnection, config } from '../../server/src/utils/global_db_config'
+import { initConnection, config } from '../config/global'
 
 import Knex = require('knex')
 
 const globalMigrationConfig: Knex.MigratorConfig = {
   extension: 'ts',
   stub: 'migration.stub.ts',
-  directory: 'migrations',
+  directory: 'global/migrations', // relative to migrate.sh script
 }
 
 const runGlobalMigrations = async (): Promise<void> => {
@@ -20,6 +20,7 @@ const runMigration = async (migrationConfig): Promise<void> => {
   } catch (err) {
     console.log(err)
     console.log('Migration Failed')
+    process.exit(1)
   }
   // eslint-disable-next-line dot-notation
   console.log(`Migrations complete for ${config.connection['instanceName']}`)
