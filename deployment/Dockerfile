@@ -1,3 +1,3 @@
 FROM google/cloud-sdk:alpine
 
-RUN apk add --update nodejs npm yarn xxd
+RUN apk add --update nodejs npm xxd

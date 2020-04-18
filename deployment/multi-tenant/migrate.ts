@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import { getConfigs } from '../../server/src/utils/tenant_db_config'
+import { getConfigs } from '../config/multi-tenant'
 
 import Knex = require('knex')
 
 const tenantMigrationConfig: Knex.MigratorConfig = {
   extension: 'ts',
   stub: 'migration.stub.ts',
-  directory: 'multi-tenant/migrations', // relative to migrate.sh script
+  directory: 'deployment/multi-tenant/migrations', // relative to project root
 }
 
 const runTenantMigrations = async (): Promise<void> => {
@@ -27,6 +27,7 @@ const runMigration = async (config, migrationConfig): Promise<void> => {
   try {
     await knexInstance.migrate.latest(migrationConfig)
   } catch (err) {
+    console.log(err)
     console.log('Migration Failed')
     process.exit(1)
   }

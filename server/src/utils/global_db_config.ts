@@ -6,11 +6,13 @@ import './env'
 
 import Knex = require('knex')
 
+const isDev = process.env.NODE_ENV === undefined
+const HOST = isDev ? process.env.DB_HOST : `/cloudsql/${process.env.DB_HOST}`
 
 export const config: Knex.Config = {
   client: 'postgres',
   connection: {
-    host: process.env.DB_HOST,
+    host: HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,

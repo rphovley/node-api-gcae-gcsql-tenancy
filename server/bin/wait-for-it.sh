@@ -4,7 +4,7 @@ host="$1"
 shift
 cmd="$@"
 
-until psql -h "$host" -U "red-ride" -c '\l'; do
+until psql -h "$host" -U "replace-me" -c '\l'; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
 done

@@ -1,45 +1,45 @@
-version: '3'
+version: "3"
 services:
   success_resources_db:
-    container_name: red-panda_success_db
+    container_name: replace-me_success_db
     image: postgres:9.6.15
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_PASSWORD: ""
-      POSTGRES_USER: "red-panda"
+      POSTGRES_USER: "replace-me"
     volumes:
       - ./data/success-resources-data:/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
   tony_robbins_db:
-    container_name: red-panda_tony_db
+    container_name: replace-me_tony_db
     image: postgres:9.6.15
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_PASSWORD: ""
-      POSTGRES_USER: "red-panda"
+      POSTGRES_USER: "replace-me"
     volumes:
       - ./data/tony-robbins-data:/var/lib/postgresql/data/pgdata
     ports:
       - "5433:5432"
   silicon_slopes_db:
-    container_name: red-panda_silicon_db
+    container_name: replace-me_silicon_db
     image: postgres:9.6.15
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_PASSWORD: ""
-      POSTGRES_USER: "red-panda"
+      POSTGRES_USER: "replace-me"
     volumes:
       - ./data/silicon-slopes-data:/var/lib/postgresql/data/pgdata
     ports:
       - "5434:5432"
   global_db:
-    container_name: red-panda_global_db
+    container_name: replace-me_global_db
     image: postgres:9.6.15
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_PASSWORD: ""
-      POSTGRES_USER: "red-panda"
+      POSTGRES_USER: "replace-me"
     volumes:
       - ./data/global-data:/var/lib/postgresql/data/pgdata
     ports:

@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 import { AppUser } from '../../test/factories/app_user.factory'
 import { Lead } from '../../test/factories/lead.factory'
-import { getConfigs } from '../../server/src/utils/tenant_db_config'
+import { getConfigs } from '../config/multi-tenant'
 
 import faker = require('faker')
 import Knex = require('knex')

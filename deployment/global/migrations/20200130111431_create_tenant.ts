@@ -10,7 +10,8 @@ export async function up(knex: Knex): Promise<void> {
       table.string('db_name').notNullable()
       table.string('db_user').notNullable()
       table.string('db_port').notNullable()
-      table.string('db_host').notNullable()
+      table.string('db_public_host').notNullable()
+      table.string('db_private_host').notNullable()
       table.string('db_pass').notNullable()
     })
 }

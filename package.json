@@ -1,11 +1,11 @@
 {
-  "name": "template",
+  "name": "replace-me",
   "version": "0.0.1",
   "description": "",
   "main": "server/dist/server.js",
   "repository": {
     "type": "git",
-    "url": "template"
+    "url": "replace-me"
   },
   "scripts": {
     "start": "node server/dist/server.js",
@@ -14,21 +14,21 @@
     "compile": "gulp compilejs",
     "gcp-build": "yarn compile",
     "test": "ts-mocha --paths -p server/src/tsconfig.json test/**/*.test.ts",
-    "logs": "docker-compose -p template -f docker-compose.dev.yml logs -f",
-    "kill": "docker-compose -p template -f docker-compose.dev.yml kill",
-    "connect": "docker exec -it template_success_db psql -U template",
-    "connect-global": "docker exec -it template_global_db psql -U template",
+    "logs": "docker-compose -p replace-me -f docker-compose.dev.yml logs -f",
+    "kill": "docker-compose -p replace-me -f docker-compose.dev.yml kill",
+    "connect": "docker exec -it replace-me_success_db psql -U replace-me",
+    "connect-global": "docker exec -it replace-me_global_db psql -U replace-me",
     "generate-token": "ts-node --project ./server/src/tsconfig.json ./scripts/generate_user_token.ts",
     "generate-token-new": "ts-node --project ./server/src/tsconfig.json ./scripts/generate_token_new_user.ts",
-    "migrate": "bash ./deployment/migrate.sh",
-    "seed": "bash ./deployment/migrate_and_seed.sh",
+    "migrate": "sh ./deployment/migrate.sh",
+    "seed": "sh ./deployment/migrate_and_seed.sh",
     "migrate-global": "cd ./deployment/global && ts-node migrate.ts",
     "migrate-tenant": "cd ./deployment/multi-tenant && ts-node migrate.ts",
     "seed-global": "cd ./deployment/global && ts-node seeds.ts",
     "seed-tenant": "cd ./deployment/multi-tenant && ts-node seeds.ts",
-    "build-deployer": "docker build ./deployment --tag  registry.gitlab.com/rphovley-templates/node-api-express-objection-postgres/deployer",
-    "push-deployer": "docker push registry.gitlab.com/rphovley-templates/node-api-express-objection-postgres/deployer",
-    "test-runner": "gitlab-runner exec docker --docker-privileged --cache-dir=/tmp/cache --docker-volumes /tmp/cache:/tmp/cache $(cat ./deployment/ci.env |cut -f 2 |sed 's/^/--env /g'| xargs -0) deploy_staging",
+    "build-deployer": "docker build ./deployment --tag  registry.gitlab.com/rphovley-templates/node-api-gcae-gcsql-tenancy/deployer",
+    "push-deployer": "docker push registry.gitlab.com/rphovley-templates/node-api-gcae-gcsql-tenancy/deployer",
+    "test-runner": "gitlab-runner exec docker --docker-privileged --cache-dir=/tmp/cache --docker-volumes /tmp/cache:/tmp/cache $(cat ./deployment/ci.env |cut -f 2 |sed 's/^/--env /g'| xargs -0) deploy_production",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {

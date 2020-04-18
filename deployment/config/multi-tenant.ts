@@ -8,8 +8,10 @@ export const setConnConfigs = async (): Promise<void> => {
   try {
     const globalKnexDB = initConnection()
     const rawConnections = await globalKnexDB.select('*').from('tenant')
+    // eslint-disable-next-line no-console
+    console.log(rawConnections)
     rawConnections.forEach((conn) => {
-      const config = tenantConfig(conn.db_host, conn.db_user, conn.db_pass, conn.db_name, conn.db_port, conn.name)
+      const config = tenantConfig(conn.db_public_host, conn.db_user, conn.db_pass, conn.db_name, conn.db_port, conn.name)
       tenantConnConfigs.set(conn.id, config)
     })
     globalKnexDB.destroy()

@@ -6,7 +6,7 @@ import Knex = require('knex')
 const globalMigrationConfig: Knex.MigratorConfig = {
   extension: 'ts',
   stub: 'migration.stub.ts',
-  directory: 'global/migrations', // relative to migrate.sh script
+  directory: 'deployment/global/migrations', // relative to project root
 }
 
 const runGlobalMigrations = async (): Promise<void> => {

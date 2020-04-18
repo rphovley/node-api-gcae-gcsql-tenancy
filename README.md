@@ -1,4 +1,11 @@
-# Red Panda Events API
+# CI/CD for Node API (Postgres, Objection, GC App Engine, Firebase)
+
+Template for CI/CD that incorporates Google Cloud App Engine with Google Cloud SQL.
+Also incorporates
+
+1. a structure for multi-tenancy with separate dbs
+2. has some logging built in for Google Logs
+3. uses firebase auth for authentication
 
 ## Prequisites
 
@@ -11,11 +18,12 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Quick Start
 
+- Find all instances of `replace-me` and replace them with a sensible name for your project
 - Run `yarn` to install dependencies
 - Run `yarn start-db` to the postgres db container
 - Run `yarn migrate` to run migrations and seeds for the dataset.
 - Run `yarn migrate-global`, `yarn seed-global`, `yarn migrate-tenant`, and `yarn seed-tenant` to run migrations or seeds independently
-- Run `yarn start` to start the api. This will also compile typescript into javascript and watch for any changes.
+- Run `yarn dev` to start the api. This will also compile typescript into javascript and watch for any changes.
 
 ## Linting
 
@@ -39,7 +47,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 
 ## Notes
 
-- The entry point file is at `server/bin/www`, which bootstraps the server and starts listening.
+- The entry point file is at `server/dist/server.js`, which bootstraps the server and starts listening.
 - environment variables are located in `server/bin`
 
 ## Directory Structure
@@ -67,86 +75,7 @@ All of these were noted from my machine at the time and may not be the lower lim
 - This project uses docker-compose to orchestrate the postgres containers (development)
 - In the production environment, the postgres container is replaced by usage of postgres as a service- as it's bad practice to host the database on the same machine as the server (risk of data corruption)
 
-## CI/CD
-
-- Uses gitlabs ci/cd with `.gitlab-ci.yml` file
-
-  - Code
-  - Environment variables: This project relies on Gitlab's [Environment Variables](https://gitlab.com/rphovley-templates/node-api-express-objection-postgres/-/settings/ci_cd) to store sensitive data.
-    - Database: Relies on Google Cloud's SQL DaaS (for this project using Postgres)
-    - Other service connections: This project uses Google Cloud's Logging services
-  - Google Cloud
-    - Project per environment (protects environments from accessing each other)
-
-- Stages
-
-  - Dependencies
-  - Lint
-  - Build
-  - Test
-  - Deploy
-    - new code
-    - any additional migrations
-    - rollback
-
-- Environments
-  - development
-  - staging
-  - production
-
-## CI/CD Implementation Quickstart
-
-- Create a project per environment you will be using
-- Create a postgres db per environment
-- Obtain credentials required for accessing environment resources/services
-  - https://cloud.google.com/sql/docs/postgres/connect-app-engine
-    - [Enable SQL Admin API](https://console.cloud.google.com/flows/enableapi?apiid=sqladmin&redirect=https://console.cloud.google.com&_ga=2.176934949.1273786701.1586983355-851683026.1585882442&_gac=1.253357691.1585961713.CjwKCAjwvZv0BRA8EiwAD9T2VauvWkIDPVhAtCgPVXn7z7lh_L8WbV33wg7Psd1xdjLYse-v--bmvRoC830QAvD_BwE)
-    - [Enable App Engine API](https://console.developers.google.com/apis/api/appengine.googleapis.com/overview?project=1082351058220)
-    - Give Google App Engine Service Account Access to Google Cloud SQL for the project [IAM](https://console.cloud.google.com/iam-admin) (maybe?)
-    -
-- Put those credentials into gitlab environment variables
-  - the app.yaml template requires any variables that are used there to be prefeixed by `APP_`
-- Deployment
-
-  - Requires a "deploy" server and not a gitlab shared runner. The reason for this is the deployment script runs migrations against the Google Cloud Databases. Connections to those databases require that they come from a known location. Shared runners don't work for this situation.
-
-    - Gitlab Runner Installation/Registration
-      - Install Gitlab Runner: [Install Instructions](https://docs.gitlab.com/runner/install/linux-manually.html)
-      - Register Runner: [Register Instructions](https://docs.gitlab.com/runner/register/)
-        - Note: Make sure to use `sudo` for the gitlab commands. Required on linux distributions.
-      - Verify Runner: `sudo gitlab-runner verify`
-        - This is required to connect the runner to gitlab for jobs. Isn't in the registration or install instructions
-    - Git access for deploy server (to pull project)
-      - On the machine run: `sudo ssh-keygen -t ed25519 -C "deployer server"`
-      - Take the public key generated from that command and go to `Settings` -> `CI/CD` -> `Deploy Keys` and add that public key.
-      - On CentOS Servers, [update git](https://medium.com/better-programming/install-git-v2-on-centos-7-49448deede19) to version 2 (gitlab uses commands version 1 does not include)
-    - Install node / yarn on deploy server (be sure to install from root): [CentOS Installation Instructions](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-a-centos-7-server)
-    - Google Cloud SDK Installation
-      - CentOS installation: [Install Instructions](https://cloud.google.com/sdk/docs/downloads-yum)
-      - Create IAM service account user for deploy server: [IAM](https://console.cloud.google.com/iam-admin/serviceaccounts)
-        - Give service account `App Engine Deployer` permissions and `Cloud SQL Editor` permissions
-        - Create and Download the service key
-        - Add the key as an environment variable in Gitlab (in our case SERVICE_ACCOUNT)
-    - Create Cloud SQL Database [Cloud SQL](https://console.cloud.google.com/sql)
-      - Create a user account and password
-      - Save the user account and password in the environment variables for gitlab
-    - Environment Variables
-      - SERVICE_ACCOUNT (download from iam service account)
-      - PROJECT_ID (Google Cloud Project ID)
-      - Firebase
-        - FIREBASE_PROJECT_ID
-        - FIREBASE_PRIVATE_KEY
-        - FIREBASE_CLIENT_EMAIL
-      - Database
-        - APP_DB_HOST
-        - APP_DB_PASSWORD
-        - APP_DB_USER
-        - APP_DB_NAME
-        - APP_DB_PORT
-
-  - Dockerfile
-    - Base image google cloud
-    - install node/yarn
+## [CI/CD](https://docs.google.com/document/d/1oufUMsz1exq8iEC98emocDtwcjimS4RXz3Ors2wqPPc/edit?usp=sharing)
 
 ## Jokes
 
