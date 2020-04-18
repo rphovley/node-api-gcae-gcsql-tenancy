@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
-import { AppUser, appUser } from '../../test/factories/app_user.factory'
+import { AppUser } from '../../test/factories/app_user.factory'
 import { Lead } from '../../test/factories/lead.factory'
 import { getConfigs } from '../../server/src/utils/tenant_db_config'
-import { ILead } from '../../server/src/models/lead.model'
 
 import faker = require('faker')
 import Knex = require('knex')
@@ -18,7 +17,7 @@ export async function seed(knex: Knex): Promise<void> {
   await deleteRecords(knex)
 
   // create admin
-  const admin = await AppUser(knex, { roles: ['admin'] })
+  // const admin = await AppUser(knex, { roles: ['admin'] })
 
   // create attendees
   for (let i = 0; i < 100; i++) {

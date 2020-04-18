@@ -2,13 +2,10 @@
 // // Setting up the database connection
 import { Model } from 'objection'
 import { getLogger } from './logger'
+import './env'
 
 import Knex = require('knex')
 
-const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''
-require('dotenv').config({
-  path: `${__dirname}/../../bin/.global.db.env${env}`,
-})
 
 export const config: Knex.Config = {
   client: 'postgres',

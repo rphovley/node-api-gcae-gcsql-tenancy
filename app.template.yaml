@@ -1,0 +1,12 @@
+runtime: nodejs
+env: flex
+
+# beta_settings:
+#   cloud_sql_instances: red-panda-main:us-central1:db-engage-staging=tcp:5432
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10

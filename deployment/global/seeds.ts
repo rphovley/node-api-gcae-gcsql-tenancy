@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable dot-notation */
-import { initConnection } from '../../server/src/utils/global_db_config'
+import { initConnection } from '../config/global'
 
 
 import Knex = require('knex')
