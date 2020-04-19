@@ -92,6 +92,6 @@ migrate_production:
     policy: pull # we don't change the cache so only pull changes don't push any new ones (saves time)
   only:
     - master
-  environment: production
+  environment: production_migrations
   script:
     - yarn migrate
